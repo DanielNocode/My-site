@@ -6,7 +6,6 @@ import Image from 'next/image';
 import { useRef } from 'react';
 import { ease, duration } from '@/lib/motion';
 import { useHeroMotion } from '@/hooks/useHeroMotion';
-import HeroHud from '@/components/ui/HeroHud';
 
 const badges = [
   'n8n / Telegram / CRM / GetCourse',
@@ -111,10 +110,17 @@ export default function Hero() {
               ))}
             </motion.h1>
 
-            {/* HUD panel — mobile position (under heading, above badges) */}
-            <div className="lg:hidden mb-8">
-              <HeroHud />
-            </div>
+            <motion.p
+              initial={{ opacity: 0, y: 20, filter: 'blur(4px)' }}
+              animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+              transition={{ duration: duration.slow, delay: 0.7, ease: ease.out }}
+              className="text-lg md:text-xl text-slate-400 leading-relaxed mb-8 max-w-2xl mx-auto lg:mx-0"
+            >
+              Строю системы, которые снимают ручной хаос:
+              заявки → квалификация → CRM → сообщения → задачи → отчёты.
+              <br className="hidden md:block" />
+              Работаю на стыке маркетинга, процессов и техчасти — от логики до внедрения.
+            </motion.p>
 
             {/* Badges */}
             <motion.div
@@ -186,7 +192,7 @@ export default function Hero() {
             </motion.p>
           </div>
 
-          {/* ─── Right: Portrait + HUD system ─── */}
+          {/* ─── Right: Portrait ─── */}
           <motion.div
             initial={{ opacity: 0, scale: 0.88, filter: 'blur(8px)' }}
             animate={{ opacity: 1, scale: 1, filter: 'blur(0px)' }}
@@ -194,55 +200,46 @@ export default function Hero() {
             style={{ y: portraitY }}
             className="relative flex-shrink-0"
           >
-            {/* Wrapper: HUD + connector + Photo in a row on desktop */}
-            <div className="flex items-start gap-0">
-              {/* Desktop HUD panel — positioned left of photo with connector */}
-              <div className="hidden lg:block relative" style={{ marginTop: '2rem' }}>
-                <HeroHud />
-              </div>
+            <div data-hero-card className="relative w-64 h-80 sm:w-72 sm:h-[22rem] lg:w-80 lg:h-[26rem]">
+              {/* Glow behind */}
+              <motion.div
+                animate={{
+                  scale: [1.1, 1.15, 1.1],
+                  opacity: [0.5, 0.7, 0.5],
+                }}
+                transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
+                className="absolute inset-0 rounded-2xl bg-gradient-to-br from-neon-blue/20 to-neon-orange/15 blur-2xl"
+              />
 
-              {/* Photo card */}
-              <div data-hero-card className="relative w-64 h-80 sm:w-72 sm:h-[22rem] lg:w-80 lg:h-[26rem]">
-                {/* Glow behind */}
-                <motion.div
-                  animate={{
-                    scale: [1.1, 1.15, 1.1],
-                    opacity: [0.5, 0.7, 0.5],
-                  }}
-                  transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
-                  className="absolute inset-0 rounded-2xl bg-gradient-to-br from-neon-blue/20 to-neon-orange/15 blur-2xl"
+              {/* Card */}
+              <div data-hero-glass className="process-window relative w-full h-full rounded-2xl overflow-hidden border border-white/[0.08] bg-dark-800">
+                <Image
+                  src="/images/my_photo_hero.png"
+                  alt="Даниил — AI-агенты и автоматизации"
+                  fill
+                  className="object-cover object-top"
+                  priority
                 />
 
-                {/* Card */}
-                <div data-hero-glass className="process-window relative w-full h-full rounded-2xl overflow-hidden border border-white/[0.08] bg-dark-800">
-                  <Image
-                    src="/images/my_photo_hero.png"
-                    alt="Даниил — AI-агенты и автоматизации"
-                    fill
-                    className="object-cover object-top"
-                    priority
-                  />
-
-                  {/* Single subtle label */}
-                  <div className="absolute bottom-0 left-0 right-0 z-20 px-3 py-2 bg-gradient-to-t from-dark-950/80 to-transparent">
-                    <span className="text-[10px] text-slate-500/70 font-mono tracking-wider">operator: daniil</span>
-                  </div>
+                {/* Single subtle label */}
+                <div className="absolute bottom-0 left-0 right-0 z-20 px-3 py-2 bg-gradient-to-t from-dark-950/80 to-transparent">
+                  <span className="text-[10px] text-slate-500/70 font-mono tracking-wider">operator: daniil</span>
                 </div>
-
-                {/* Corner accents */}
-                <motion.div
-                  initial={{ opacity: 0, scale: 0.5 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ delay: 1.0, duration: 0.5, ease: ease.out }}
-                  className="absolute -top-1.5 -left-1.5 w-5 h-5 border-t border-l border-neon-blue/30 rounded-tl-md"
-                />
-                <motion.div
-                  initial={{ opacity: 0, scale: 0.5 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ delay: 1.1, duration: 0.5, ease: ease.out }}
-                  className="absolute -bottom-1.5 -right-1.5 w-5 h-5 border-b border-r border-neon-orange/30 rounded-br-md"
-                />
               </div>
+
+              {/* Corner accents */}
+              <motion.div
+                initial={{ opacity: 0, scale: 0.5 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: 1.0, duration: 0.5, ease: ease.out }}
+                className="absolute -top-1.5 -left-1.5 w-5 h-5 border-t border-l border-neon-blue/30 rounded-tl-md"
+              />
+              <motion.div
+                initial={{ opacity: 0, scale: 0.5 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: 1.1, duration: 0.5, ease: ease.out }}
+                className="absolute -bottom-1.5 -right-1.5 w-5 h-5 border-b border-r border-neon-orange/30 rounded-br-md"
+              />
             </div>
           </motion.div>
         </div>

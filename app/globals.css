@@ -558,4 +558,244 @@
     0%   { left: -100%; }
     100% { left: 100%; }
   }
+
+  /* ═══════════════════════════════════════════════
+     Hero HUD Panel — diagnostic interface overlay
+     ═══════════════════════════════════════════════ */
+
+  /* ─── Panel container ─── */
+  .hud-panel {
+    position: relative;
+    padding: 16px 18px 12px;
+    background: rgba(6, 6, 10, 0.55);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border: 1px solid rgba(0, 212, 255, 0.1);
+    border-radius: 10px;
+  }
+
+  [data-hud-panel] {
+    transition:
+      border-color 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+      box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  [data-hud-panel]:hover {
+    border-color: rgba(0, 212, 255, 0.22);
+    box-shadow:
+      0 0 24px rgba(0, 212, 255, 0.06),
+      inset 0 0 30px rgba(0, 212, 255, 0.02);
+  }
+
+  /* ─── Corner brackets ─── */
+  .hud-bracket {
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    pointer-events: none;
+    z-index: 20;
+  }
+
+  .hud-bracket--tl {
+    top: -1px;
+    left: -1px;
+    border-top: 2px solid rgba(0, 212, 255, 0.4);
+    border-left: 2px solid rgba(0, 212, 255, 0.4);
+    border-radius: 3px 0 0 0;
+  }
+
+  .hud-bracket--tr {
+    top: -1px;
+    right: -1px;
+    border-top: 2px solid rgba(0, 212, 255, 0.25);
+    border-right: 2px solid rgba(0, 212, 255, 0.25);
+    border-radius: 0 3px 0 0;
+  }
+
+  .hud-bracket--bl {
+    bottom: -1px;
+    left: -1px;
+    border-bottom: 2px solid rgba(0, 212, 255, 0.2);
+    border-left: 2px solid rgba(0, 212, 255, 0.2);
+    border-radius: 0 0 0 3px;
+  }
+
+  .hud-bracket--br {
+    bottom: -1px;
+    right: -1px;
+    border-bottom: 2px solid rgba(255, 107, 43, 0.25);
+    border-right: 2px solid rgba(255, 107, 43, 0.25);
+    border-radius: 0 0 3px 0;
+  }
+
+  /* ─── Grid noise overlay inside panel ─── */
+  .hud-grid-overlay {
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    opacity: 0.04;
+    background-image:
+      linear-gradient(rgba(0, 212, 255, 0.3) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0, 212, 255, 0.3) 1px, transparent 1px);
+    background-size: 20px 20px;
+    mask-image: radial-gradient(ellipse at 30% 30%, black 0%, transparent 75%);
+    -webkit-mask-image: radial-gradient(ellipse at 30% 30%, black 0%, transparent 75%);
+  }
+
+  /* ─── Row structure ─── */
+  .hud-row {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  /* ─── System marker (small mono label) ─── */
+  .hud-marker {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: 'Space Grotesk', monospace;
+    font-size: 9px;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: rgba(0, 212, 255, 0.5);
+    overflow: hidden;
+    white-space: nowrap;
+  }
+
+  /* ─── Divider between rows ─── */
+  .hud-divider {
+    width: 100%;
+    height: 1px;
+    margin-top: 4px;
+    background: linear-gradient(
+      90deg,
+      rgba(0, 212, 255, 0.15) 0%,
+      rgba(0, 212, 255, 0.06) 50%,
+      transparent 100%
+    );
+  }
+
+  /* ─── Panel footer ─── */
+  .hud-footer {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 12px;
+    padding-top: 8px;
+    border-top: 1px solid rgba(255, 255, 255, 0.04);
+  }
+
+  .hud-footer-tag {
+    font-family: 'Space Grotesk', monospace;
+    font-size: 8px;
+    letter-spacing: 0.15em;
+    color: rgba(148, 163, 184, 0.35);
+    text-transform: uppercase;
+  }
+
+  .hud-footer-sep {
+    width: 2px;
+    height: 8px;
+    background: rgba(0, 212, 255, 0.15);
+    border-radius: 1px;
+  }
+
+  /* ─── Horizontal connector line (desktop) ─── */
+  .hud-connector-h {
+    position: relative;
+    width: 48px;
+    height: 1px;
+    flex-shrink: 0;
+    background: linear-gradient(
+      90deg,
+      rgba(0, 212, 255, 0.05) 0%,
+      rgba(0, 212, 255, 0.25) 50%,
+      rgba(0, 212, 255, 0.12) 100%
+    );
+    margin-top: 32px;
+    animation: connector-breathe 4s ease-in-out infinite;
+  }
+
+  .hud-connector-h::before,
+  .hud-connector-h::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    transform: translateY(-50%);
+    background: rgba(0, 212, 255, 0.35);
+  }
+
+  .hud-connector-h::before { right: -1px; }
+  .hud-connector-h::after  { left: -1px; }
+
+  @keyframes connector-breathe {
+    0%, 100% { opacity: 0.6; }
+    50%      { opacity: 1; }
+  }
+
+  /* ─── Data pulse dot (travels along connector) ─── */
+  .hud-pulse-dot {
+    position: absolute;
+    top: 50%;
+    width: 6px;
+    height: 6px;
+    margin-top: 29px;
+    border-radius: 50%;
+    background: #00d4ff;
+    box-shadow: 0 0 8px rgba(0, 212, 255, 0.6), 0 0 16px rgba(0, 212, 255, 0.3);
+    animation: pulse-travel 3s ease-in-out infinite;
+    pointer-events: none;
+    z-index: 10;
+  }
+
+  @keyframes pulse-travel {
+    0%   { left: -2px; opacity: 0; transform: translateY(-50%) scale(0.5); }
+    10%  { opacity: 1; transform: translateY(-50%) scale(1); }
+    45%  { left: 44px; opacity: 1; transform: translateY(-50%) scale(1); }
+    55%  { left: 44px; opacity: 0.3; transform: translateY(-50%) scale(0.7); }
+    100% { left: 44px; opacity: 0; transform: translateY(-50%) scale(0.3); }
+  }
+
+  /* ─── Hover boost on connector region ─── */
+  [data-hud-panel]:hover ~ .hud-connector-h,
+  .hud-connector-h:hover {
+    opacity: 1;
+  }
+
+  /* ─── Reduced motion ─── */
+  @media (prefers-reduced-motion: reduce) {
+    .hud-pulse-dot,
+    .hud-connector-h {
+      animation: none !important;
+    }
+    .hud-pulse-dot {
+      display: none;
+    }
+  }
+
+  html.motion-off .hud-pulse-dot,
+  html.motion-off .hud-connector-h {
+    animation: none !important;
+  }
+
+  html.motion-off .hud-pulse-dot {
+    display: none;
+  }
+
+  /* ─── Mobile: compact panel, no connector ─── */
+  @media (max-width: 1023px) {
+    .hud-panel {
+      padding: 14px 14px 10px;
+    }
+    .hud-connector-h,
+    .hud-pulse-dot {
+      display: none;
+    }
+  }
 }

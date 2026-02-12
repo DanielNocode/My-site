@@ -5,6 +5,7 @@ import { Send, ArrowDown } from 'lucide-react';
 import Image from 'next/image';
 import { useRef } from 'react';
 import { ease, duration } from '@/lib/motion';
+import { useHeroMotion } from '@/hooks/useHeroMotion';
 
 const badges = [
   'n8n / Telegram / CRM / GetCourse',
@@ -30,6 +31,7 @@ const wordVariants = {
 
 export default function Hero() {
   const sectionRef = useRef<HTMLElement>(null);
+  useHeroMotion(sectionRef);
   const { scrollYProgress } = useScroll({
     target: sectionRef,
     offset: ['start start', 'end start'],
@@ -95,9 +97,9 @@ export default function Hero() {
                 </motion.span>
               ))}
               {/* Accent word with glitch + glow sweep */}
-              <motion.span variants={wordVariants} className="inline-block mr-[0.3em]">
+              <motion.span variants={wordVariants} data-hero-accent-wrap className="inline-block mr-[0.3em]">
                 <span className="relative inline-block glitch-wrapper glow-sweep">
-                  <span className="relative z-10 bg-gradient-to-r from-neon-blue to-neon-blue/70 bg-clip-text text-transparent">
+                  <span data-hero-accent className="relative z-10 bg-gradient-to-r from-neon-blue to-neon-blue/70 bg-clip-text text-transparent">
                     {accentWord}
                   </span>
                   <span className="glitch-layer glitch-blue" aria-hidden="true">{accentWord}</span>
@@ -141,6 +143,7 @@ export default function Hero() {
                       transition: { duration: 0.5, ease: ease.out },
                     },
                   }}
+                  data-hero-chip
                   className="px-3 py-1.5 text-xs md:text-sm text-slate-300 bg-white/[0.04] border border-white/[0.08] rounded-lg"
                 >
                   {badge}
@@ -156,6 +159,7 @@ export default function Hero() {
               className="flex flex-col sm:flex-row gap-3 justify-center lg:justify-start mb-4"
             >
               <motion.a
+                data-hero-cta
                 whileHover={{ scale: 1.04, y: -2 }}
                 whileTap={{ scale: 0.97 }}
                 transition={{ type: 'spring', stiffness: 300, damping: 20 }}
@@ -168,6 +172,7 @@ export default function Hero() {
                 Обсудить задачу в Telegram
               </motion.a>
               <motion.a
+                data-hero-cta
                 whileHover={{ scale: 1.04, y: -2 }}
                 whileTap={{ scale: 0.97 }}
                 transition={{ type: 'spring', stiffness: 300, damping: 20 }}
@@ -197,7 +202,7 @@ export default function Hero() {
             style={{ y: portraitY }}
             className="relative flex-shrink-0"
           >
-            <div className="relative w-64 h-80 sm:w-72 sm:h-[22rem] lg:w-80 lg:h-[26rem]">
+            <div data-hero-card className="relative w-64 h-80 sm:w-72 sm:h-[22rem] lg:w-80 lg:h-[26rem]">
               {/* Pulsing glow behind portrait */}
               <motion.div
                 animate={{
@@ -207,7 +212,7 @@ export default function Hero() {
                 transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
                 className="absolute inset-0 rounded-3xl bg-gradient-to-br from-neon-blue/20 to-neon-orange/20 blur-2xl"
               />
-              <div className="relative w-full h-full rounded-3xl overflow-hidden border border-white/10 bg-dark-800">
+              <div data-hero-glass className="relative w-full h-full rounded-3xl overflow-hidden border border-white/10 bg-dark-800">
                 <Image
                   src="/images/my_photo_hero.png"
                   alt="Данил — AI-агенты и автоматизации"
@@ -236,6 +241,7 @@ export default function Hero() {
 
       {/* ─── Scroll indicator ─── */}
       <motion.div
+        data-hero-scroll
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 2.0, duration: duration.slow }}

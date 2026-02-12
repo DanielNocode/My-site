@@ -3,7 +3,7 @@
 import { motion } from 'framer-motion';
 import SectionHeading from '@/components/ui/SectionHeading';
 import { Bot, Workflow, GraduationCap, Layout, Search } from 'lucide-react';
-import { staggerContainer, card3D, iconReveal, listItem, ease } from '@/lib/motion';
+import { staggerContainer, card3D, iconReveal, listItem } from '@/lib/motion';
 
 const services = [
   {
@@ -88,20 +88,13 @@ export default function Services() {
             <motion.div
               key={i}
               variants={card3D}
-              whileHover={{
-                y: -6,
-                rotateY: 2,
-                boxShadow: service.accent === 'blue'
-                  ? '0 0 40px rgba(0,212,255,0.1), 0 20px 50px rgba(0,0,0,0.3)'
-                  : '0 0 40px rgba(255,107,43,0.1), 0 20px 50px rgba(0,0,0,0.3)',
-                transition: { duration: 0.35, ease: ease.out },
-              }}
               className={`
                 bg-white/[0.02] border border-white/[0.06] backdrop-blur-xl rounded-2xl
-                p-6 md:p-8
+                p-6 md:p-8 transition-[transform,border-color,box-shadow] duration-300 ease-out
+                hover:-translate-y-1.5
                 ${service.accent === 'blue'
-                  ? 'hover:border-neon-blue/20'
-                  : 'hover:border-neon-orange/20'
+                  ? 'hover:border-neon-blue/20 hover:shadow-[0_0_40px_rgba(0,212,255,0.1),0_20px_50px_rgba(0,0,0,0.3)]'
+                  : 'hover:border-neon-orange/20 hover:shadow-[0_0_40px_rgba(255,107,43,0.1),0_20px_50px_rgba(0,0,0,0.3)]'
                 }
                 ${i >= 3 ? 'lg:col-span-1' : ''}
               `}

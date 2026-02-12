@@ -47,7 +47,7 @@ export default function Header() {
             <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-neon-blue/30 to-neon-orange/30 border border-neon-blue/20 flex items-center justify-center">
               <span className="text-sm font-bold text-white">D</span>
             </div>
-            <span className="text-lg font-bold text-white">Данил</span>
+            <span className="text-lg font-bold text-white">Даниил</span>
           </motion.a>
 
           {/* Desktop nav — staggered entrance */}

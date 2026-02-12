@@ -215,7 +215,7 @@ export default function Hero() {
               <div data-hero-glass className="process-window relative w-full h-full rounded-2xl overflow-hidden border border-white/[0.08] bg-dark-800">
                 <Image
                   src="/images/my_photo_hero.png"
-                  alt="Данил — AI-агенты и автоматизации"
+                  alt="Даниил — AI-агенты и автоматизации"
                   fill
                   className="object-cover object-top"
                   priority
@@ -223,7 +223,7 @@ export default function Hero() {
 
                 {/* Single subtle label */}
                 <div className="absolute bottom-0 left-0 right-0 z-20 px-3 py-2 bg-gradient-to-t from-dark-950/80 to-transparent">
-                  <span className="text-[10px] text-slate-500/70 font-mono tracking-wider">operator: danil</span>
+                  <span className="text-[10px] text-slate-500/70 font-mono tracking-wider">operator: daniil</span>
                 </div>
               </div>
 

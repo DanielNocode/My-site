@@ -14,7 +14,7 @@ export default function Footer() {
                 <span className="text-xs font-bold text-white">D</span>
               </div>
               <span className="text-sm font-semibold text-white">
-                Данил — AI-агенты, чат-боты и автоматизации
+                Даниил — AI-агенты, чат-боты и автоматизации
               </span>
             </div>
             <p className="text-xs text-slate-500">

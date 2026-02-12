@@ -288,3 +288,236 @@
     50% { box-shadow: 0 0 20px rgba(255, 107, 43, 0.15); }
   }
 }
+
+/* ═══════════════════════════════════════════════
+   Hero micro-motion layer
+   Pure CSS animations — no JS dependency for visuals.
+   ═══════════════════════════════════════════════ */
+
+@layer components {
+
+  /* ─── Motion tokens ─── */
+  :root {
+    --motion-duration-gradient: 10s;
+    --motion-duration-glow: 5s;
+    --motion-duration-sweep: 14s;
+    --motion-duration-chip: 800ms;
+  }
+
+  /* ─── Kill all hero motion ─── */
+  @media (prefers-reduced-motion: reduce) {
+    :root {
+      --motion-duration-gradient: 0s;
+      --motion-duration-glow: 0s;
+      --motion-duration-sweep: 0s;
+    }
+    [data-hero-accent],
+    [data-hero-card]::after,
+    [data-hero-chip]::after,
+    [data-hero-chip].chip-active::after { animation: none !important; }
+  }
+
+  html.motion-off {
+    --motion-duration-gradient: 0s;
+    --motion-duration-glow: 0s;
+    --motion-duration-sweep: 0s;
+  }
+
+  html.motion-off [data-hero-accent],
+  html.motion-off [data-hero-card]::after,
+  html.motion-off [data-hero-chip]::after,
+  html.motion-off [data-hero-chip].chip-active::after {
+    animation: none !important;
+  }
+
+  /* ═══ 1. Accent word — energy-flow gradient + glow ═══ */
+  [data-hero-accent] {
+    background: linear-gradient(
+      90deg,
+      #00d4ff 0%,
+      #00b8d4 20%,
+      #00d4ff 40%,
+      #4de8ff 60%,
+      #00d4ff 80%,
+      #00b8d4 100%
+    ) !important;
+    background-size: 300% 100% !important;
+    -webkit-background-clip: text !important;
+    background-clip: text !important;
+    color: transparent !important;
+    animation: hero-gradient-shift var(--motion-duration-gradient) ease-in-out infinite;
+  }
+
+  @keyframes hero-gradient-shift {
+    0%, 100% { background-position: 0% 50%; }
+    50%      { background-position: 100% 50%; }
+  }
+
+  /* Glow pulse — pseudo on the wrapper so overflow:hidden doesn't clip */
+  [data-hero-accent-wrap] {
+    position: relative;
+  }
+
+  [data-hero-accent-wrap]::before {
+    content: '';
+    position: absolute;
+    inset: -4px -8px;
+    background: #00d4ff;
+    filter: blur(28px);
+    opacity: 0.02;
+    animation: hero-accent-glow var(--motion-duration-glow) ease-in-out infinite;
+    pointer-events: none;
+    z-index: -1;
+    border-radius: 8px;
+  }
+
+  @keyframes hero-accent-glow {
+    0%, 100% { opacity: 0.02; }
+    50%      { opacity: 0.07; }
+  }
+
+  /* ═══ 2. Photo card — light sweep + hover depth ═══ */
+  [data-hero-card] {
+    will-change: transform;
+    transition: transform 0.1s linear;
+  }
+
+  /* Slight image overscale so counter-parallax has room */
+  [data-hero-card] img {
+    will-change: transform;
+    transform: scale(1.04);
+    transition: transform 0.1s linear;
+  }
+
+  [data-hero-glass] {
+    position: relative;
+    transition:
+      box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+      border-color 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  [data-hero-glass]::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 50%;
+    height: 100%;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(255, 255, 255, 0.04),
+      transparent
+    );
+    animation: hero-card-sweep var(--motion-duration-sweep) ease-in-out infinite;
+    pointer-events: none;
+    z-index: 10;
+    border-radius: inherit;
+  }
+
+  @keyframes hero-card-sweep {
+    0%, 82% { left: -100%; opacity: 0; }
+    87%     { opacity: 1; }
+    100%    { left: 200%; opacity: 0; }
+  }
+
+  [data-hero-glass]:hover {
+    border-color: rgba(255, 255, 255, 0.16);
+    box-shadow:
+      0 10px 40px rgba(0, 0, 0, 0.45),
+      0 0 24px rgba(0, 212, 255, 0.06);
+  }
+
+  /* ═══ 3. CTA buttons — shimmer + icon shift + active + focus ═══ */
+  [data-hero-cta] {
+    position: relative;
+    overflow: hidden;
+  }
+
+  [data-hero-cta]::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(255, 255, 255, 0.07),
+      transparent
+    );
+    pointer-events: none;
+  }
+
+  [data-hero-cta]:hover::before {
+    animation: cta-shimmer 650ms ease-out forwards;
+  }
+
+  @keyframes cta-shimmer {
+    0%   { left: -100%; }
+    100% { left: 100%; }
+  }
+
+  [data-hero-cta] svg {
+    transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  [data-hero-cta]:hover svg {
+    transform: translateX(2px);
+  }
+
+  [data-hero-cta]:focus-visible {
+    outline: 2px solid rgba(0, 212, 255, 0.4);
+    outline-offset: 3px;
+  }
+
+  /* ═══ 4. Tech chips — hover glow + idle data-line ═══ */
+  [data-hero-chip] {
+    position: relative;
+    overflow: hidden;
+    transition:
+      border-color 0.3s ease-out,
+      background-color 0.3s ease-out;
+  }
+
+  [data-hero-chip]::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(0, 212, 255, 0.08),
+      transparent
+    );
+    pointer-events: none;
+  }
+
+  [data-hero-chip]:hover {
+    border-color: rgba(0, 212, 255, 0.2) !important;
+    background-color: rgba(255, 255, 255, 0.06) !important;
+  }
+
+  [data-hero-chip]:hover::after {
+    animation: chip-data-line var(--motion-duration-chip) ease-out forwards;
+  }
+
+  /* Idle activation via JS class toggle */
+  [data-hero-chip].chip-active {
+    border-color: rgba(0, 212, 255, 0.15) !important;
+    background-color: rgba(255, 255, 255, 0.04) !important;
+  }
+
+  [data-hero-chip].chip-active::after {
+    animation: chip-data-line 1.2s ease-out forwards;
+  }
+
+  @keyframes chip-data-line {
+    0%   { left: -100%; }
+    100% { left: 100%; }
+  }
+}

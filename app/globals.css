@@ -310,34 +310,39 @@
     100%      { opacity: 1; }
   }
 
-  /* ─── Glow sweep for hero accent ─── */
-  .glow-sweep {
-    position: relative;
-    overflow: hidden;
+  /* ─── System status dot ─── */
+  .system-status-dot {
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background-color: rgba(0, 212, 255, 0.5);
+    box-shadow: 0 0 6px rgba(0, 212, 255, 0.3);
+    animation: status-pulse 3s ease-in-out infinite;
   }
 
-  .glow-sweep::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 60%;
-    height: 100%;
-    background: linear-gradient(
-      90deg,
-      transparent,
-      rgba(0, 212, 255, 0.15),
-      transparent
-    );
-    animation: sweep 5s ease-in-out infinite;
-    animation-delay: 2s;
-    pointer-events: none;
+  .system-status-dot--sm {
+    width: 4px;
+    height: 4px;
   }
 
-  @keyframes sweep {
-    0% { left: -100%; }
-    35% { left: 150%; }
-    100% { left: 150%; }
+  @keyframes status-pulse {
+    0%, 100% { opacity: 0.5; }
+    50%      { opacity: 1; }
+  }
+
+  /* ─── Process window ─── */
+  .process-window {
+    transition:
+      box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+      border-color 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .process-window:hover {
+    border-color: rgba(255, 255, 255, 0.12);
+    box-shadow:
+      0 10px 40px rgba(0, 0, 0, 0.45),
+      0 0 20px rgba(0, 212, 255, 0.05);
   }
 
   /* ─── Reduced motion: kill all glitch ─── */
@@ -393,7 +398,6 @@
   :root {
     --motion-duration-gradient: 10s;
     --motion-duration-glow: 5s;
-    --motion-duration-sweep: 14s;
     --motion-duration-chip: 800ms;
   }
 
@@ -402,24 +406,22 @@
     :root {
       --motion-duration-gradient: 0s;
       --motion-duration-glow: 0s;
-      --motion-duration-sweep: 0s;
     }
     [data-hero-accent],
-    [data-hero-card]::after,
     [data-hero-chip]::after,
-    [data-hero-chip].chip-active::after { animation: none !important; }
+    [data-hero-chip].chip-active::after,
+    .system-status-dot { animation: none !important; }
   }
 
   html.motion-off {
     --motion-duration-gradient: 0s;
     --motion-duration-glow: 0s;
-    --motion-duration-sweep: 0s;
   }
 
   html.motion-off [data-hero-accent],
-  html.motion-off [data-hero-card]::after,
   html.motion-off [data-hero-chip]::after,
-  html.motion-off [data-hero-chip].chip-active::after {
+  html.motion-off [data-hero-chip].chip-active::after,
+  html.motion-off .system-status-dot {
     animation: none !important;
   }
 
@@ -462,44 +464,7 @@
     transition: transform 0.1s linear;
   }
 
-  [data-hero-glass] {
-    position: relative;
-    transition:
-      box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1),
-      border-color 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-  }
-
-  [data-hero-glass]::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 50%;
-    height: 100%;
-    background: linear-gradient(
-      90deg,
-      transparent,
-      rgba(255, 255, 255, 0.04),
-      transparent
-    );
-    animation: hero-card-sweep var(--motion-duration-sweep) ease-in-out infinite;
-    pointer-events: none;
-    z-index: 10;
-    border-radius: inherit;
-  }
-
-  @keyframes hero-card-sweep {
-    0%, 82% { left: -100%; opacity: 0; }
-    87%     { opacity: 1; }
-    100%    { left: 200%; opacity: 0; }
-  }
-
-  [data-hero-glass]:hover {
-    border-color: rgba(255, 255, 255, 0.16);
-    box-shadow:
-      0 10px 40px rgba(0, 0, 0, 0.45),
-      0 0 24px rgba(0, 212, 255, 0.06);
-  }
+  /* data-hero-glass — hover handled by .process-window in main CSS */
 
   /* ═══ 3. CTA buttons — shimmer + icon shift + active + focus ═══ */
   [data-hero-cta] {

@@ -8,12 +8,14 @@ import Tools from '@/components/sections/Tools';
 import Testimonials from '@/components/sections/Testimonials';
 import Contacts from '@/components/sections/Contacts';
 import Footer from '@/components/sections/Footer';
+import BackgroundEffects from '@/components/ui/BackgroundEffects';
 
 export default function Home() {
   return (
     <>
+      <BackgroundEffects />
       <Header />
-      <main>
+      <main className="relative z-10">
         <Hero />
         <Audience />
         <Services />

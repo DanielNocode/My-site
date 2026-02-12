@@ -163,7 +163,7 @@
     background: rgba(0, 212, 255, 0.4);
   }
 
-  /* ─── Glitch effect for hero text ─── */
+  /* ─── Cyberpunk glitch for hero accent ─── */
   .glitch-wrapper {
     position: relative;
   }
@@ -181,62 +181,133 @@
     line-height: inherit;
   }
 
+  /* Chromatic aberration — cyan channel */
   .glitch-blue {
     color: #00d4ff;
-    text-shadow: 0 0 10px rgba(0, 212, 255, 0.5);
-    animation: glitch-blue 5s ease-in-out infinite;
+    text-shadow: 0 0 8px rgba(0, 212, 255, 0.6);
+    animation: glitch-blue 4s step-end infinite;
   }
 
+  /* Chromatic aberration — orange channel */
   .glitch-orange {
     color: #ff6b2b;
-    text-shadow: 0 0 10px rgba(255, 107, 43, 0.5);
-    animation: glitch-orange 5s ease-in-out infinite;
+    text-shadow: 0 0 8px rgba(255, 107, 43, 0.6);
+    animation: glitch-orange 4s step-end infinite;
+    animation-delay: -0.5s;
   }
 
+  /*
+   * Glitch burst pattern:
+   *   0–74%    calm (invisible)
+   *   75–82%   burst 1 — fast flicker, 3 cuts
+   *   83–88%   calm
+   *   89–95%   burst 2 — offset + skew
+   *   96–100%  calm
+   */
   @keyframes glitch-blue {
-    0%, 88%, 100% {
-      opacity: 0;
-      transform: translate(0, 0);
-      clip-path: none;
-    }
-    89% {
-      opacity: 0.5;
-      transform: translate(-3px, -1px);
-      clip-path: inset(20% 0 40% 0);
-    }
-    91% { opacity: 0; }
-    94% {
-      opacity: 0.3;
-      transform: translate(2px, 1px);
-      clip-path: inset(60% 0 10% 0);
-    }
-    96% {
-      opacity: 0;
-      transform: translate(0, 0);
-    }
+    0%, 74.9%   { opacity: 0; transform: translate(0, 0) skewX(0); clip-path: none; }
+    /* ── burst 1 ── */
+    75%         { opacity: 0.7; transform: translate(-4px, -1px); clip-path: inset(8% 0 76% 0); }
+    76%         { opacity: 0;   transform: translate(0, 0); clip-path: none; }
+    77%         { opacity: 0.5; transform: translate(3px, 0) skewX(-2deg); clip-path: inset(42% 0 32% 0); }
+    78%         { opacity: 0;   transform: translate(0, 0) skewX(0); clip-path: none; }
+    79%         { opacity: 0.6; transform: translate(-2px, 1px); clip-path: inset(65% 0 12% 0); }
+    81%         { opacity: 0.3; transform: translate(5px, -1px) skewX(3deg); clip-path: inset(20% 0 55% 0); }
+    82%         { opacity: 0;   transform: translate(0, 0) skewX(0); clip-path: none; }
+    /* ── burst 2 ── */
+    89%         { opacity: 0.5; transform: translate(3px, 0) skewX(-4deg); clip-path: inset(15% 0 60% 0); }
+    90%         { opacity: 0;   transform: translate(0, 0) skewX(0); clip-path: none; }
+    91%         { opacity: 0.65; transform: translate(-5px, 1px); clip-path: inset(50% 0 20% 0); }
+    92.5%       { opacity: 0;   transform: translate(0, 0); clip-path: none; }
+    93%         { opacity: 0.4; transform: translate(2px, -1px) skewX(2deg); clip-path: inset(72% 0 5% 0); }
+    95%         { opacity: 0;   transform: translate(0, 0) skewX(0); clip-path: none; }
+    100%        { opacity: 0; transform: translate(0, 0) skewX(0); clip-path: none; }
   }
 
   @keyframes glitch-orange {
-    0%, 90%, 100% {
-      opacity: 0;
-      transform: translate(0, 0);
-      clip-path: none;
-    }
-    91% {
-      opacity: 0.4;
-      transform: translate(3px, 1px);
-      clip-path: inset(50% 0 20% 0);
-    }
-    93% { opacity: 0; }
-    95% {
-      opacity: 0.25;
-      transform: translate(-2px, -1px);
-      clip-path: inset(10% 0 70% 0);
-    }
-    97% {
-      opacity: 0;
-      transform: translate(0, 0);
-    }
+    0%, 73.9%   { opacity: 0; transform: translate(0, 0) skewX(0); clip-path: none; }
+    /* ── burst 1 (offset from blue) ── */
+    74%         { opacity: 0.5; transform: translate(4px, 1px); clip-path: inset(55% 0 18% 0); }
+    75.5%       { opacity: 0;   transform: translate(0, 0); clip-path: none; }
+    76.5%       { opacity: 0.6; transform: translate(-3px, 0) skewX(3deg); clip-path: inset(10% 0 68% 0); }
+    77.5%       { opacity: 0;   transform: translate(0, 0) skewX(0); clip-path: none; }
+    79%         { opacity: 0.4; transform: translate(2px, -1px) skewX(-2deg); clip-path: inset(35% 0 40% 0); }
+    81%         { opacity: 0;   transform: translate(0, 0) skewX(0); clip-path: none; }
+    /* ── burst 2 ── */
+    90%         { opacity: 0.55; transform: translate(-4px, 0) skewX(4deg); clip-path: inset(25% 0 48% 0); }
+    91%         { opacity: 0;    transform: translate(0, 0) skewX(0); clip-path: none; }
+    92%         { opacity: 0.45; transform: translate(3px, 1px); clip-path: inset(60% 0 15% 0); }
+    93%         { opacity: 0;    transform: translate(0, 0); clip-path: none; }
+    94%         { opacity: 0.35; transform: translate(-2px, -1px) skewX(-3deg); clip-path: inset(5% 0 80% 0); }
+    95.5%       { opacity: 0;    transform: translate(0, 0) skewX(0); clip-path: none; }
+    100%        { opacity: 0; transform: translate(0, 0) skewX(0); clip-path: none; }
+  }
+
+  /* Scanline overlay — horizontal interference lines */
+  .glitch-wrapper::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -2px;
+    right: -2px;
+    bottom: 0;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(0, 212, 255, 0.015) 2px,
+      rgba(0, 212, 255, 0.015) 4px
+    );
+    opacity: 0;
+    pointer-events: none;
+    z-index: 20;
+    animation: scanline-flash 4s step-end infinite;
+  }
+
+  @keyframes scanline-flash {
+    0%, 74%   { opacity: 0; }
+    75%, 82%  { opacity: 1; }
+    83%, 88%  { opacity: 0; }
+    89%, 95%  { opacity: 1; }
+    96%, 100% { opacity: 0; }
+  }
+
+  /* Accent word — flowing gradient + flicker sync'd with glitch bursts */
+  [data-hero-accent] {
+    background: linear-gradient(
+      90deg,
+      #00d4ff 0%,
+      #00b8d4 20%,
+      #00d4ff 40%,
+      #4de8ff 60%,
+      #00d4ff 80%,
+      #00b8d4 100%
+    ) !important;
+    background-size: 300% 100% !important;
+    -webkit-background-clip: text !important;
+    background-clip: text !important;
+    color: transparent !important;
+    animation:
+      hero-gradient-shift var(--motion-duration-gradient) ease-in-out infinite,
+      accent-flicker 4s step-end infinite;
+  }
+
+  @keyframes hero-gradient-shift {
+    0%, 100% { background-position: 0% 50%; }
+    50%      { background-position: 100% 50%; }
+  }
+
+  @keyframes accent-flicker {
+    0%, 74%   { opacity: 1; }
+    75.5%     { opacity: 0.88; }
+    76%       { opacity: 1; }
+    78%       { opacity: 0.92; }
+    78.5%     { opacity: 1; }
+    90.5%     { opacity: 0.9; }
+    91%       { opacity: 1; }
+    93%       { opacity: 0.85; }
+    93.5%     { opacity: 1; }
+    100%      { opacity: 1; }
   }
 
   /* ─── Glow sweep for hero accent ─── */
@@ -267,6 +338,28 @@
     0% { left: -100%; }
     35% { left: 150%; }
     100% { left: 150%; }
+  }
+
+  /* ─── Reduced motion: kill all glitch ─── */
+  @media (prefers-reduced-motion: reduce) {
+    .glitch-blue,
+    .glitch-orange,
+    .glitch-wrapper::before {
+      animation: none !important;
+    }
+    [data-hero-accent] {
+      animation: none !important;
+    }
+  }
+
+  html.motion-off .glitch-blue,
+  html.motion-off .glitch-orange,
+  html.motion-off .glitch-wrapper::before {
+    animation: none !important;
+  }
+
+  html.motion-off [data-hero-accent] {
+    animation: none !important;
   }
 
   /* ─── Diagram node pulse ─── */
@@ -330,28 +423,8 @@
     animation: none !important;
   }
 
-  /* ═══ 1. Accent word — energy-flow gradient + glow ═══ */
-  [data-hero-accent] {
-    background: linear-gradient(
-      90deg,
-      #00d4ff 0%,
-      #00b8d4 20%,
-      #00d4ff 40%,
-      #4de8ff 60%,
-      #00d4ff 80%,
-      #00b8d4 100%
-    ) !important;
-    background-size: 300% 100% !important;
-    -webkit-background-clip: text !important;
-    background-clip: text !important;
-    color: transparent !important;
-    animation: hero-gradient-shift var(--motion-duration-gradient) ease-in-out infinite;
-  }
-
-  @keyframes hero-gradient-shift {
-    0%, 100% { background-position: 0% 50%; }
-    50%      { background-position: 100% 50%; }
-  }
+  /* ═══ 1. Accent word — gradient defined here, animation driven by glitch section ═══ */
+  /* (animation: hero-gradient-shift + accent-flicker is set in the glitch block above) */
 
   /* Glow pulse — pseudo on the wrapper so overflow:hidden doesn't clip */
   [data-hero-accent-wrap] {

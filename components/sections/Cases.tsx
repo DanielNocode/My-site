@@ -5,7 +5,7 @@ import SectionHeading from '@/components/ui/SectionHeading';
 import GlassCard from '@/components/ui/GlassCard';
 import NeonButton from '@/components/ui/NeonButton';
 import { Send } from 'lucide-react';
-import { nodePulse, drawLine, ease, duration, viewport } from '@/lib/motion';
+import { nodePulse, ease, duration, viewport } from '@/lib/motion';
 
 interface DiagramNode {
   label: string;
@@ -106,55 +106,18 @@ const cases: CaseData[] = [
   },
 ];
 
-/* Animated diagram with SVG draw-on lines and pulsing nodes */
+/* Animated diagram with CSS connectors and pulsing nodes */
 function CaseDiagram({ nodes }: { nodes: DiagramNode[] }) {
-  const nodeHeight = 36;
-  const gap = 28;
-  const totalH = nodes.length * nodeHeight + (nodes.length - 1) * gap;
-
   return (
     <motion.div
       initial="hidden"
       whileInView="visible"
       viewport={{ once: true, margin: '-40px' }}
-      className="relative flex flex-col items-center py-4"
-      style={{ minHeight: totalH }}
+      className="flex flex-col items-center py-4"
     >
-      {/* SVG connecting lines — draw-on animation */}
-      <svg
-        className="absolute inset-0 w-full h-full pointer-events-none"
-        viewBox={`0 0 200 ${totalH}`}
-        fill="none"
-        preserveAspectRatio="xMidYMid meet"
-      >
-        {nodes.slice(0, -1).map((_, i) => {
-          const y1 = i * (nodeHeight + gap) + nodeHeight;
-          const y2 = y1 + gap;
-          return (
-            <motion.line
-              key={i}
-              x1="100"
-              y1={y1}
-              x2="100"
-              y2={y2}
-              stroke="rgba(255,255,255,0.12)"
-              strokeWidth="1"
-              variants={drawLine}
-              custom={i}
-              transition={{
-                pathLength: { duration: 0.6, delay: i * 0.12 + 0.2, ease: ease.cinematic },
-                opacity: { duration: 0.3, delay: i * 0.12 },
-              }}
-            />
-          );
-        })}
-      </svg>
-
-      {/* Nodes */}
-      <div className="relative flex flex-col items-center" style={{ gap: `${gap}px` }}>
-        {nodes.map((node, i) => (
+      {nodes.map((node, i) => (
+        <div key={i} className="flex flex-col items-center">
           <motion.div
-            key={i}
             variants={nodePulse}
             custom={i}
             className={`
@@ -165,12 +128,24 @@ function CaseDiagram({ nodes }: { nodes: DiagramNode[] }) {
                 : 'border-neon-blue/30 bg-neon-blue/[0.06] text-neon-blue node-pulse'
               }
             `}
-            style={{ height: `${nodeHeight}px` }}
           >
             {node.label}
           </motion.div>
-        ))}
-      </div>
+          {i < nodes.length - 1 && (
+            <motion.div
+              className="flex flex-col items-center"
+              initial={{ opacity: 0, scaleY: 0 }}
+              whileInView={{ opacity: 1, scaleY: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.4, delay: i * 0.12 + 0.2, ease: ease.out }}
+              style={{ originY: 0 }}
+            >
+              <div className="w-px h-5 bg-gradient-to-b from-white/20 to-white/5" />
+              <div className="w-0 h-0 border-l-[4px] border-l-transparent border-r-[4px] border-r-transparent border-t-[5px] border-t-white/20" />
+            </motion.div>
+          )}
+        </div>
+      ))}
     </motion.div>
   );
 }

@@ -16,9 +16,6 @@ export default function Hero() {
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20">
       {/* Background effects */}
       <div className="absolute inset-0">
-        {/* Grid */}
-        <div className="absolute inset-0 cyber-grid" />
-
         {/* Neon blobs */}
         <motion.div
           animate={{

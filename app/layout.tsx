@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import './globals.css';
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://danil.vercel.app'),
   title: 'Данил — AI-агенты, чат-боты и автоматизации для онлайн-бизнеса',
   description:
     'Строю системы, которые снимают ручной хаос: заявки, квалификация, CRM, сообщения, задачи, отчёты. Работаю на стыке маркетинга, процессов и техчасти — от логики до внедрения.',

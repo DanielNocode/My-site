@@ -152,4 +152,86 @@
   ::-webkit-scrollbar-thumb:hover {
     background: rgba(0, 212, 255, 0.4);
   }
+
+  /* Glitch effect for hero text */
+  .glitch-wrapper {
+    position: relative;
+  }
+
+  .glitch-layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    pointer-events: none;
+    font-weight: inherit;
+    font-size: inherit;
+    line-height: inherit;
+  }
+
+  .glitch-blue {
+    color: #00d4ff;
+    text-shadow: 0 0 10px rgba(0, 212, 255, 0.5);
+    animation: glitch-blue 4s ease-in-out infinite;
+  }
+
+  .glitch-orange {
+    color: #ff6b2b;
+    text-shadow: 0 0 10px rgba(255, 107, 43, 0.5);
+    animation: glitch-orange 4s ease-in-out infinite;
+  }
+
+  @keyframes glitch-blue {
+    0%, 85%, 100% {
+      opacity: 0;
+      transform: translate(0, 0);
+      clip-path: none;
+    }
+    86% {
+      opacity: 0.6;
+      transform: translate(-3px, -1px);
+      clip-path: inset(20% 0 40% 0);
+    }
+    88% {
+      opacity: 0;
+      transform: translate(0, 0);
+    }
+    92% {
+      opacity: 0.4;
+      transform: translate(2px, 1px);
+      clip-path: inset(60% 0 10% 0);
+    }
+    94% {
+      opacity: 0;
+      transform: translate(0, 0);
+    }
+  }
+
+  @keyframes glitch-orange {
+    0%, 87%, 100% {
+      opacity: 0;
+      transform: translate(0, 0);
+      clip-path: none;
+    }
+    88% {
+      opacity: 0.5;
+      transform: translate(3px, 1px);
+      clip-path: inset(50% 0 20% 0);
+    }
+    90% {
+      opacity: 0;
+      transform: translate(0, 0);
+    }
+    93% {
+      opacity: 0.3;
+      transform: translate(-2px, -1px);
+      clip-path: inset(10% 0 70% 0);
+    }
+    95% {
+      opacity: 0;
+      transform: translate(0, 0);
+    }
+  }
 }

@@ -54,10 +54,12 @@ export default function Hero() {
               className="text-4xl sm:text-5xl md:text-6xl lg:text-[3.5rem] font-extrabold text-white leading-[1.1] mb-6"
             >
               AI-агенты, чат-боты и{' '}
-              <span className="relative">
+              <span className="relative inline-block glitch-wrapper">
                 <span className="relative z-10 bg-gradient-to-r from-neon-blue to-neon-blue/70 bg-clip-text text-transparent">
                   автоматизации
                 </span>
+                <span className="glitch-layer glitch-blue" aria-hidden="true">автоматизации</span>
+                <span className="glitch-layer glitch-orange" aria-hidden="true">автоматизации</span>
               </span>{' '}
               для онлайн-бизнеса
             </motion.h1>

@@ -1,7 +1,7 @@
 'use client';
 
 import { motion, useScroll, useTransform } from 'framer-motion';
-import { Send, ArrowDown } from 'lucide-react';
+import { Send, ArrowDown, Terminal } from 'lucide-react';
 import Image from 'next/image';
 import { useRef } from 'react';
 import { ease, duration } from '@/lib/motion';
@@ -11,7 +11,7 @@ const badges = [
   'n8n / Telegram / CRM / GetCourse',
   'Интеграции через API и вебхуки',
   'Сценарии ботов + логика продаж/поддержки',
-  'Стабильность: контроль ошибок, ретраи, логирование',
+  'Контроль ошибок, ретраи, логирование',
 ];
 
 /* Staged headline words — each word fades in sequentially */
@@ -37,68 +37,82 @@ export default function Hero() {
     offset: ['start start', 'end start'],
   });
 
-  // Parallax: background blobs move slower than scroll
   const bgY1 = useTransform(scrollYProgress, [0, 1], [0, 120]);
   const bgY2 = useTransform(scrollYProgress, [0, 1], [0, 80]);
   const bgY3 = useTransform(scrollYProgress, [0, 1], [0, 160]);
-  // Portrait moves slightly slower for depth
   const portraitY = useTransform(scrollYProgress, [0, 1], [0, 50]);
 
   return (
     <section
       ref={sectionRef}
-      className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20"
+      className="relative min-h-screen flex flex-col overflow-hidden pt-20"
     >
       {/* ─── Parallax background blobs ─── */}
       <div className="absolute inset-0">
         <motion.div
           style={{ y: bgY1 }}
-          animate={{
-            scale: [1, 1.2, 1],
-            opacity: [0.15, 0.25, 0.15],
-          }}
+          animate={{ scale: [1, 1.2, 1], opacity: [0.15, 0.25, 0.15] }}
           transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut' }}
           className="absolute top-1/4 -left-32 w-96 h-96 bg-neon-blue/20 rounded-full blur-[120px]"
         />
         <motion.div
           style={{ y: bgY2 }}
-          animate={{
-            scale: [1.2, 1, 1.2],
-            opacity: [0.1, 0.2, 0.1],
-          }}
+          animate={{ scale: [1.2, 1, 1.2], opacity: [0.1, 0.2, 0.1] }}
           transition={{ duration: 10, repeat: Infinity, ease: 'easeInOut' }}
           className="absolute bottom-1/4 -right-32 w-96 h-96 bg-neon-orange/15 rounded-full blur-[120px]"
         />
         <motion.div
           style={{ y: bgY3 }}
-          animate={{
-            scale: [1, 1.15, 1],
-            opacity: [0.08, 0.15, 0.08],
-          }}
+          animate={{ scale: [1, 1.15, 1], opacity: [0.08, 0.15, 0.08] }}
           transition={{ duration: 12, repeat: Infinity, ease: 'easeInOut' }}
           className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-neon-blue/10 rounded-full blur-[150px]"
         />
       </div>
 
-      <div className="relative z-10 section-wrapper">
-        <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-16">
-          {/* ─── Left: Text content ─── */}
+      {/* ═══ System Status Bar ═══ */}
+      <motion.div
+        initial={{ opacity: 0, y: -10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, delay: 0.15, ease: ease.out }}
+        className="relative z-10 section-wrapper"
+      >
+        <div className="flex items-center justify-between py-3 px-4 border-b border-white/[0.06]">
+          <div className="flex items-center gap-2 text-xs text-slate-500 font-mono tracking-wider">
+            <span className="system-status-dot" />
+            <span>SYSTEM STATUS: <span className="text-neon-blue/70">ONLINE</span></span>
+          </div>
+          <a
+            href="https://t.me/techprod_ai"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-xs text-slate-500 hover:text-neon-blue/70 transition-colors duration-200 font-mono tracking-wider"
+          >
+            → OPEN CHANNEL
+          </a>
+        </div>
+      </motion.div>
+
+      {/* ═══ Main content ═══ */}
+      <div className="relative z-10 section-wrapper flex-1 flex items-center">
+        <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-16 w-full">
+          {/* ─── Left: System output ─── */}
           <div className="flex-1 text-center lg:text-left">
-            {/* Staged headline reveal: word by word */}
+            {/* Headline with engineering prefix */}
             <motion.h1
               initial="hidden"
               animate="visible"
               transition={{ staggerChildren: 0.07, delayChildren: 0.3 }}
               className="text-4xl sm:text-5xl md:text-6xl lg:text-[3.5rem] font-extrabold text-white leading-[1.1] mb-6"
             >
+              <motion.span variants={wordVariants} className="inline-block mr-[0.3em] text-neon-blue/30 font-mono font-light">&gt;</motion.span>
               {headlineWords.map((word, i) => (
                 <motion.span key={i} variants={wordVariants} className="inline-block mr-[0.3em]">
                   {word}
                 </motion.span>
               ))}
-              {/* Accent word with glitch + glow sweep */}
+              {/* Accent word with glitch */}
               <motion.span variants={wordVariants} data-hero-accent-wrap className="inline-block mr-[0.3em]">
-                <span className="relative inline-block glitch-wrapper glow-sweep">
+                <span className="relative inline-block glitch-wrapper">
                   <span data-hero-accent className="relative z-10 bg-gradient-to-r from-neon-blue to-neon-blue/70 bg-clip-text text-transparent">
                     {accentWord}
                   </span>
@@ -106,6 +120,8 @@ export default function Hero() {
                   <span className="glitch-layer glitch-orange" aria-hidden="true">{accentWord}</span>
                 </span>
               </motion.span>
+              <br className="hidden lg:block" />
+              <motion.span variants={wordVariants} className="hidden lg:inline-block mr-[0.3em] text-neon-blue/30 font-mono font-light">&gt;</motion.span>
               {trailingWords.map((word, i) => (
                 <motion.span key={i} variants={wordVariants} className="inline-block mr-[0.3em]">
                   {word}
@@ -113,18 +129,24 @@ export default function Hero() {
               ))}
             </motion.h1>
 
-            <motion.p
+            {/* Description as structured log lines */}
+            <motion.div
               initial={{ opacity: 0, y: 20, filter: 'blur(4px)' }}
               animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
               transition={{ duration: duration.slow, delay: 0.7, ease: ease.out }}
-              className="text-lg md:text-xl text-slate-400 leading-relaxed mb-8 max-w-2xl mx-auto lg:mx-0"
+              className="mb-8 max-w-2xl mx-auto lg:mx-0 space-y-2"
             >
-              Строю системы, которые снимают ручной хаос: заявки → квалификация → CRM → сообщения → задачи → отчёты.
-              <br className="hidden md:block" />
-              Работаю на стыке маркетинга, процессов и техчасти — от логики до внедрения.
-            </motion.p>
+              <p className="text-lg md:text-xl text-slate-400 leading-relaxed">
+                <span className="text-slate-600 font-mono text-sm mr-2">process</span>
+                заявки → квалификация → CRM → сообщения → задачи → отчёты
+              </p>
+              <p className="text-lg md:text-xl text-slate-400 leading-relaxed">
+                <span className="text-slate-600 font-mono text-sm mr-2">scope</span>
+                маркетинг × процессы × техчасть — от логики до внедрения
+              </p>
+            </motion.div>
 
-            {/* Badges — staggered fade */}
+            {/* Capability chips */}
             <motion.div
               initial="hidden"
               animate="visible"
@@ -151,7 +173,7 @@ export default function Hero() {
               ))}
             </motion.div>
 
-            {/* CTAs */}
+            {/* CTA — system actions */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -166,10 +188,11 @@ export default function Hero() {
                 href="https://t.me/techprod_ai"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="btn-neon-orange text-base px-8 py-4"
+                className="btn-neon-orange text-base px-8 py-4 gap-2.5"
               >
                 <Send size={18} />
-                Обсудить задачу в Telegram
+                <span>Обсудить задачу</span>
+                <span className="text-xs opacity-50 font-mono ml-1">RUN</span>
               </motion.a>
               <motion.a
                 data-hero-cta
@@ -177,10 +200,11 @@ export default function Hero() {
                 whileTap={{ scale: 0.97 }}
                 transition={{ type: 'spring', stiffness: 300, damping: 20 }}
                 href="#cases"
-                className="btn-neon-blue text-base px-8 py-4"
+                className="btn-neon-blue text-base px-8 py-4 gap-2.5"
               >
-                <ArrowDown size={18} />
-                Смотреть кейсы
+                <Terminal size={18} />
+                <span>Смотреть кейсы</span>
+                <span className="text-xs opacity-50 font-mono ml-1">VIEW</span>
               </motion.a>
             </motion.div>
 
@@ -194,7 +218,7 @@ export default function Hero() {
             </motion.p>
           </div>
 
-          {/* ─── Right: Portrait with parallax ─── */}
+          {/* ─── Right: Process window (portrait) ─── */}
           <motion.div
             initial={{ opacity: 0, scale: 0.88, filter: 'blur(8px)' }}
             animate={{ opacity: 1, scale: 1, filter: 'blur(0px)' }}
@@ -203,16 +227,28 @@ export default function Hero() {
             className="relative flex-shrink-0"
           >
             <div data-hero-card className="relative w-64 h-80 sm:w-72 sm:h-[22rem] lg:w-80 lg:h-[26rem]">
-              {/* Pulsing glow behind portrait */}
+              {/* Glow behind */}
               <motion.div
                 animate={{
                   scale: [1.1, 1.15, 1.1],
-                  opacity: [0.6, 0.8, 0.6],
+                  opacity: [0.5, 0.7, 0.5],
                 }}
                 transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
-                className="absolute inset-0 rounded-3xl bg-gradient-to-br from-neon-blue/20 to-neon-orange/20 blur-2xl"
+                className="absolute inset-0 rounded-2xl bg-gradient-to-br from-neon-blue/20 to-neon-orange/15 blur-2xl"
               />
-              <div data-hero-glass className="relative w-full h-full rounded-3xl overflow-hidden border border-white/10 bg-dark-800">
+
+              {/* Process window frame */}
+              <div data-hero-glass className="process-window relative w-full h-full rounded-2xl overflow-hidden border border-white/[0.08] bg-dark-800">
+                {/* Window title bar */}
+                <div className="absolute top-0 left-0 right-0 z-20 flex items-center justify-between px-3 py-1.5 bg-dark-950/80 backdrop-blur-sm border-b border-white/[0.06]">
+                  <div className="flex items-center gap-1.5">
+                    <span className="w-2 h-2 rounded-full bg-neon-blue/40" />
+                    <span className="text-[10px] text-slate-600 font-mono tracking-wider">operator.view</span>
+                  </div>
+                  <span className="text-[10px] text-slate-600 font-mono">pid:1024</span>
+                </div>
+
+                {/* Photo */}
                 <Image
                   src="/images/my_photo_hero.png"
                   alt="Данил — AI-агенты и автоматизации"
@@ -220,19 +256,31 @@ export default function Hero() {
                   className="object-cover object-top"
                   priority
                 />
+
+                {/* Bottom overlay — process info */}
+                <div className="absolute bottom-0 left-0 right-0 z-20 px-3 py-2 bg-gradient-to-t from-dark-950/90 via-dark-950/60 to-transparent">
+                  <div className="flex items-center justify-between">
+                    <span className="text-[10px] text-slate-500 font-mono">operator: <span className="text-slate-400">danil</span></span>
+                    <span className="text-[10px] text-neon-blue/50 font-mono flex items-center gap-1">
+                      <span className="system-status-dot system-status-dot--sm" />
+                      analyzing
+                    </span>
+                  </div>
+                </div>
               </div>
-              {/* Decorative corner accents */}
+
+              {/* Corner accents */}
               <motion.div
                 initial={{ opacity: 0, scale: 0.5 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ delay: 1.0, duration: 0.5, ease: ease.out }}
-                className="absolute -top-2 -left-2 w-6 h-6 border-t-2 border-l-2 border-neon-blue/40 rounded-tl-lg"
+                className="absolute -top-1.5 -left-1.5 w-5 h-5 border-t border-l border-neon-blue/30 rounded-tl-md"
               />
               <motion.div
                 initial={{ opacity: 0, scale: 0.5 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ delay: 1.1, duration: 0.5, ease: ease.out }}
-                className="absolute -bottom-2 -right-2 w-6 h-6 border-b-2 border-r-2 border-neon-orange/40 rounded-br-lg"
+                className="absolute -bottom-1.5 -right-1.5 w-5 h-5 border-b border-r border-neon-orange/30 rounded-br-md"
               />
             </div>
           </motion.div>

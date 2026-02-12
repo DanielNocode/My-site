@@ -1,6 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
+import { headingReveal, subtitleReveal, viewport } from '@/lib/motion';
 
 interface SectionHeadingProps {
   title: string;
@@ -18,20 +19,20 @@ export default function SectionHeading({
   return (
     <div className={`mb-12 md:mb-16 ${alignment}`}>
       <motion.h2
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.5 }}
+        variants={headingReveal}
+        initial="hidden"
+        whileInView="visible"
+        viewport={viewport.default}
         className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4"
       >
         {title}
       </motion.h2>
       {subtitle && (
         <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5, delay: 0.1 }}
+          variants={subtitleReveal}
+          initial="hidden"
+          whileInView="visible"
+          viewport={viewport.default}
           className="text-base md:text-lg text-slate-400 max-w-2xl mx-auto leading-relaxed"
         >
           {subtitle}

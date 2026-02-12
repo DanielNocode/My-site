@@ -50,6 +50,16 @@
     z-index: 0;
   }
 
+  /* 3D perspective context */
+  .perspective-container {
+    perspective: 1200px;
+    transform-style: preserve-3d;
+  }
+
+  .preserve-3d {
+    transform-style: preserve-3d;
+  }
+
   /* Glass card */
   .glass-card {
     background: rgba(255, 255, 255, 0.03);
@@ -57,7 +67,7 @@
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
     border-radius: 16px;
-    transition: all 0.3s ease;
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
   }
 
   .glass-card:hover {
@@ -102,7 +112,7 @@
     background: linear-gradient(135deg, rgba(0, 212, 255, 0.25), rgba(0, 212, 255, 0.1));
     border-color: rgba(0, 212, 255, 0.5);
     box-shadow: 0 0 30px rgba(0, 212, 255, 0.15), 0 0 60px rgba(0, 212, 255, 0.05);
-    transform: translateY(-1px);
+    transform: translateY(-2px);
   }
 
   .btn-neon-orange {
@@ -115,7 +125,7 @@
     background: linear-gradient(135deg, rgba(255, 107, 43, 0.3), rgba(255, 107, 43, 0.15));
     border-color: rgba(255, 107, 43, 0.6);
     box-shadow: 0 0 30px rgba(255, 107, 43, 0.15), 0 0 60px rgba(255, 107, 43, 0.05);
-    transform: translateY(-1px);
+    transform: translateY(-2px);
   }
 
   /* Section wrapper */
@@ -153,7 +163,7 @@
     background: rgba(0, 212, 255, 0.4);
   }
 
-  /* Glitch effect for hero text */
+  /* ─── Glitch effect for hero text ─── */
   .glitch-wrapper {
     position: relative;
   }
@@ -174,64 +184,107 @@
   .glitch-blue {
     color: #00d4ff;
     text-shadow: 0 0 10px rgba(0, 212, 255, 0.5);
-    animation: glitch-blue 4s ease-in-out infinite;
+    animation: glitch-blue 5s ease-in-out infinite;
   }
 
   .glitch-orange {
     color: #ff6b2b;
     text-shadow: 0 0 10px rgba(255, 107, 43, 0.5);
-    animation: glitch-orange 4s ease-in-out infinite;
+    animation: glitch-orange 5s ease-in-out infinite;
   }
 
   @keyframes glitch-blue {
-    0%, 85%, 100% {
+    0%, 88%, 100% {
       opacity: 0;
       transform: translate(0, 0);
       clip-path: none;
     }
-    86% {
-      opacity: 0.6;
+    89% {
+      opacity: 0.5;
       transform: translate(-3px, -1px);
       clip-path: inset(20% 0 40% 0);
     }
-    88% {
-      opacity: 0;
-      transform: translate(0, 0);
-    }
-    92% {
-      opacity: 0.4;
+    91% { opacity: 0; }
+    94% {
+      opacity: 0.3;
       transform: translate(2px, 1px);
       clip-path: inset(60% 0 10% 0);
     }
-    94% {
+    96% {
       opacity: 0;
       transform: translate(0, 0);
     }
   }
 
   @keyframes glitch-orange {
-    0%, 87%, 100% {
+    0%, 90%, 100% {
       opacity: 0;
       transform: translate(0, 0);
       clip-path: none;
     }
-    88% {
-      opacity: 0.5;
+    91% {
+      opacity: 0.4;
       transform: translate(3px, 1px);
       clip-path: inset(50% 0 20% 0);
     }
-    90% {
-      opacity: 0;
-      transform: translate(0, 0);
-    }
-    93% {
-      opacity: 0.3;
+    93% { opacity: 0; }
+    95% {
+      opacity: 0.25;
       transform: translate(-2px, -1px);
       clip-path: inset(10% 0 70% 0);
     }
-    95% {
+    97% {
       opacity: 0;
       transform: translate(0, 0);
     }
+  }
+
+  /* ─── Glow sweep for hero accent ─── */
+  .glow-sweep {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .glow-sweep::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 60%;
+    height: 100%;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(0, 212, 255, 0.15),
+      transparent
+    );
+    animation: sweep 5s ease-in-out infinite;
+    animation-delay: 2s;
+    pointer-events: none;
+  }
+
+  @keyframes sweep {
+    0% { left: -100%; }
+    35% { left: 150%; }
+    100% { left: 150%; }
+  }
+
+  /* ─── Diagram node pulse ─── */
+  .node-pulse {
+    animation: node-glow 3s ease-in-out infinite;
+  }
+
+  .node-pulse-orange {
+    animation: node-glow-orange 3s ease-in-out infinite;
+  }
+
+  @keyframes node-glow {
+    0%, 100% { box-shadow: 0 0 8px rgba(0, 212, 255, 0.05); }
+    50% { box-shadow: 0 0 20px rgba(0, 212, 255, 0.15); }
+  }
+
+  @keyframes node-glow-orange {
+    0%, 100% { box-shadow: 0 0 8px rgba(255, 107, 43, 0.05); }
+    50% { box-shadow: 0 0 20px rgba(255, 107, 43, 0.15); }
   }
 }

@@ -3,6 +3,7 @@
 import { motion } from 'framer-motion';
 import SectionHeading from '@/components/ui/SectionHeading';
 import { Bot, Workflow, GraduationCap, Layout, Search } from 'lucide-react';
+import { staggerContainer, card3D, iconReveal, listItem, ease } from '@/lib/motion';
 
 const services = [
   {
@@ -65,76 +66,19 @@ const services = [
   },
 ];
 
-const containerVariants = {
-  hidden: {},
-  visible: {
-    transition: {
-      staggerChildren: 0.12,
-    },
-  },
-};
-
-const cardVariants = {
-  hidden: {
-    opacity: 0,
-    y: 60,
-    rotateX: 15,
-    scale: 0.9,
-  },
-  visible: {
-    opacity: 1,
-    y: 0,
-    rotateX: 0,
-    scale: 1,
-    transition: {
-      duration: 0.7,
-      ease: [0.22, 1, 0.36, 1],
-    },
-  },
-};
-
-const iconVariants = {
-  hidden: { opacity: 0, rotate: -180, scale: 0 },
-  visible: {
-    opacity: 1,
-    rotate: 0,
-    scale: 1,
-    transition: {
-      type: 'spring',
-      stiffness: 200,
-      damping: 15,
-      delay: 0.2,
-    },
-  },
-};
-
-const listItemVariants = {
-  hidden: { opacity: 0, x: -20 },
-  visible: (i: number) => ({
-    opacity: 1,
-    x: 0,
-    transition: {
-      duration: 0.4,
-      delay: 0.3 + i * 0.08,
-      ease: [0.22, 1, 0.36, 1],
-    },
-  }),
-};
-
 export default function Services() {
   return (
     <section id="services" className="relative py-14 md:py-20">
-      {/* Subtle background accent */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] bg-neon-blue/[0.03] rounded-full blur-[150px] pointer-events-none" />
 
-      <div className="section-wrapper relative z-10" style={{ perspective: '1200px' }}>
+      <div className="section-wrapper relative z-10 perspective-container">
         <SectionHeading
           title="Что я делаю"
           subtitle={'Не «настраиваю сервисы», а связываю их в работающую систему с понятной логикой.'}
         />
 
         <motion.div
-          variants={containerVariants}
+          variants={staggerContainer(0.1)}
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: '-80px' }}
@@ -143,24 +87,28 @@ export default function Services() {
           {services.map((service, i) => (
             <motion.div
               key={i}
-              variants={cardVariants}
+              variants={card3D}
               whileHover={{
-                y: -8,
-                rotateY: 3,
+                y: -6,
+                rotateY: 2,
                 boxShadow: service.accent === 'blue'
-                  ? '0 0 40px rgba(0,212,255,0.12), 0 20px 60px rgba(0,0,0,0.4)'
-                  : '0 0 40px rgba(255,107,43,0.12), 0 20px 60px rgba(0,0,0,0.4)',
+                  ? '0 0 40px rgba(0,212,255,0.1), 0 20px 50px rgba(0,0,0,0.3)'
+                  : '0 0 40px rgba(255,107,43,0.1), 0 20px 50px rgba(0,0,0,0.3)',
+                transition: { duration: 0.35, ease: ease.out },
               }}
-              transition={{ duration: 0.3 }}
               className={`
                 bg-white/[0.02] border border-white/[0.06] backdrop-blur-xl rounded-2xl
-                transition-colors duration-300 p-6 md:p-8
-                hover:border-${service.accent === 'blue' ? 'neon-blue' : 'neon-orange'}/20
+                p-6 md:p-8
+                ${service.accent === 'blue'
+                  ? 'hover:border-neon-blue/20'
+                  : 'hover:border-neon-orange/20'
+                }
                 ${i >= 3 ? 'lg:col-span-1' : ''}
               `}
+              style={{ transformStyle: 'preserve-3d' }}
             >
               <motion.div
-                variants={iconVariants}
+                variants={iconReveal}
                 className={`w-12 h-12 rounded-xl flex items-center justify-center mb-5 ${
                   service.accent === 'blue'
                     ? 'bg-neon-blue/10 border border-neon-blue/20'
@@ -184,7 +132,7 @@ export default function Services() {
                 {service.items.map((item, j) => (
                   <motion.li
                     key={j}
-                    variants={listItemVariants}
+                    variants={listItem}
                     custom={j}
                     className="flex items-start gap-2 text-sm text-slate-400 leading-relaxed"
                   >

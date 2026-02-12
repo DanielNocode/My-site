@@ -35,14 +35,18 @@ export default function NeonButton({
   const baseClasses = `
     relative inline-flex items-center justify-center gap-2
     font-semibold text-white rounded-xl border
-    transition-all duration-300 hover:-translate-y-0.5
+    transition-all duration-300
     ${variants[variant]} ${sizes[size]} ${className}
   `;
 
   const Component = href ? 'a' : 'button';
 
   return (
-    <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
+    <motion.div
+      whileHover={{ scale: 1.03, y: -2 }}
+      whileTap={{ scale: 0.96 }}
+      transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+    >
       <Component
         href={href}
         target={href?.startsWith('http') ? '_blank' : undefined}

@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import SectionHeading from '@/components/ui/SectionHeading';
 import AnimatedSection from '@/components/ui/AnimatedSection';
 import { Search, PenTool, Wrench, FlaskConical, FileText } from 'lucide-react';
+import { ease, duration, spring } from '@/lib/motion';
 
 const steps = [
   {
@@ -38,6 +39,46 @@ const steps = [
   },
 ];
 
+/* Timeline line draws on from top to bottom */
+const timelineVariants = {
+  hidden: { scaleY: 0, originY: 0 },
+  visible: {
+    scaleY: 1,
+    transition: {
+      duration: duration.dramatic,
+      ease: ease.cinematic,
+    },
+  },
+};
+
+/* Step content slides in from side with blur */
+const stepVariants = (isLeft: boolean) => ({
+  hidden: {
+    opacity: 0,
+    x: isLeft ? -50 : 50,
+    filter: 'blur(4px)',
+  },
+  visible: {
+    opacity: 1,
+    x: 0,
+    filter: 'blur(0px)',
+    transition: {
+      duration: duration.slow,
+      ease: ease.out,
+    },
+  },
+});
+
+/* Center icon scales in with spring */
+const iconVariants = {
+  hidden: { opacity: 0, scale: 0 },
+  visible: {
+    opacity: 1,
+    scale: 1,
+    transition: spring.bouncy,
+  },
+};
+
 export default function Process() {
   return (
     <section id="process" className="relative py-14 md:py-20">
@@ -47,8 +88,14 @@ export default function Process() {
         <SectionHeading title="Как я работаю" />
 
         <div className="relative">
-          {/* Vertical line (desktop) */}
-          <div className="hidden md:block absolute left-1/2 top-0 bottom-0 w-px bg-gradient-to-b from-neon-blue/20 via-neon-orange/20 to-transparent" />
+          {/* Animated vertical line (desktop) — draws on with scroll */}
+          <motion.div
+            variants={timelineVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: '-100px' }}
+            className="hidden md:block absolute left-1/2 top-0 bottom-0 w-px bg-gradient-to-b from-neon-blue/20 via-neon-orange/20 to-transparent"
+          />
 
           <div className="space-y-8 md:space-y-0">
             {steps.map((step, i) => {
@@ -56,10 +103,11 @@ export default function Process() {
               return (
                 <motion.div
                   key={i}
-                  initial={{ opacity: 0, x: isLeft ? -30 : 30 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true, margin: '-50px' }}
-                  transition={{ duration: 0.5, delay: i * 0.1 }}
+                  variants={stepVariants(isLeft)}
+                  initial="hidden"
+                  whileInView="visible"
+                  viewport={{ once: true, margin: '-60px' }}
+                  transition={{ delay: i * 0.12 }}
                   className="relative md:flex md:items-center md:min-h-[140px]"
                 >
                   {/* Left content (desktop) */}
@@ -75,8 +123,15 @@ export default function Process() {
                     )}
                   </div>
 
-                  {/* Center dot */}
-                  <div className="hidden md:flex absolute left-1/2 -translate-x-1/2 z-10">
+                  {/* Center icon — spring scale */}
+                  <motion.div
+                    variants={iconVariants}
+                    initial="hidden"
+                    whileInView="visible"
+                    viewport={{ once: true }}
+                    transition={{ delay: i * 0.12 + 0.1 }}
+                    className="hidden md:flex absolute left-1/2 -translate-x-1/2 z-10"
+                  >
                     <div className={`w-10 h-10 rounded-xl flex items-center justify-center border ${
                       i % 2 === 0
                         ? 'bg-neon-blue/10 border-neon-blue/30'
@@ -84,7 +139,7 @@ export default function Process() {
                     }`}>
                       <step.icon size={18} className={i % 2 === 0 ? 'text-neon-blue' : 'text-neon-orange'} />
                     </div>
-                  </div>
+                  </motion.div>
 
                   {/* Right content (desktop) */}
                   <div className={`hidden md:block md:w-1/2 ${!isLeft ? 'pl-12' : 'pl-12'}`}>
@@ -102,15 +157,27 @@ export default function Process() {
                   {/* Mobile layout */}
                   <div className="md:hidden flex gap-4">
                     <div className="flex flex-col items-center">
-                      <div className={`w-10 h-10 rounded-xl flex items-center justify-center border flex-shrink-0 ${
-                        i % 2 === 0
-                          ? 'bg-neon-blue/10 border-neon-blue/30'
-                          : 'bg-neon-orange/10 border-neon-orange/30'
-                      }`}>
+                      <motion.div
+                        initial={{ scale: 0 }}
+                        whileInView={{ scale: 1 }}
+                        viewport={{ once: true }}
+                        transition={spring.bouncy}
+                        className={`w-10 h-10 rounded-xl flex items-center justify-center border flex-shrink-0 ${
+                          i % 2 === 0
+                            ? 'bg-neon-blue/10 border-neon-blue/30'
+                            : 'bg-neon-orange/10 border-neon-orange/30'
+                        }`}
+                      >
                         <step.icon size={18} className={i % 2 === 0 ? 'text-neon-blue' : 'text-neon-orange'} />
-                      </div>
+                      </motion.div>
                       {i < steps.length - 1 && (
-                        <div className="w-px flex-1 bg-gradient-to-b from-white/10 to-transparent mt-2" />
+                        <motion.div
+                          initial={{ scaleY: 0 }}
+                          whileInView={{ scaleY: 1 }}
+                          viewport={{ once: true }}
+                          transition={{ duration: 0.6, delay: 0.2 }}
+                          className="w-px flex-1 bg-gradient-to-b from-white/10 to-transparent mt-2 origin-top"
+                        />
                       )}
                     </div>
                     <div className="pb-8">

@@ -136,7 +136,7 @@ export default function Hero() {
             transition={{ duration: 0.8, delay: 0.4, ease: [0.22, 1, 0.36, 1] }}
             className="relative flex-shrink-0"
           >
-            <div className="relative w-64 h-64 sm:w-72 sm:h-72 lg:w-80 lg:h-80">
+            <div className="relative w-64 h-80 sm:w-72 sm:h-[22rem] lg:w-80 lg:h-[26rem]">
               {/* Glow behind portrait */}
               <div className="absolute inset-0 rounded-3xl bg-gradient-to-br from-neon-blue/20 to-neon-orange/20 blur-2xl scale-110" />
               <div className="relative w-full h-full rounded-3xl overflow-hidden border border-white/10 bg-dark-800">
@@ -144,7 +144,7 @@ export default function Hero() {
                   src="/images/my_photo_hero.png"
                   alt="Данил — AI-агенты и автоматизации"
                   fill
-                  className="object-cover"
+                  className="object-cover object-top"
                   priority
                 />
               </div>

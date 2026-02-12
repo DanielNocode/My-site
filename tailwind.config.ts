@@ -20,7 +20,7 @@ const config: Config = {
         },
       },
       fontFamily: {
-        sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
+        sans: ['Space Grotesk', 'system-ui', '-apple-system', 'sans-serif'],
       },
       animation: {
         'glow-pulse': 'glow-pulse 3s ease-in-out infinite',

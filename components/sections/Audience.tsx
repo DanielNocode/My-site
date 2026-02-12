@@ -33,7 +33,7 @@ const cards = [
 
 export default function Audience() {
   return (
-    <section id="audience" className="relative py-24 md:py-32">
+    <section id="audience" className="relative py-14 md:py-20">
       <div className="section-wrapper">
         <SectionHeading
           title="Кому я полезен"

@@ -2,6 +2,7 @@
 
 import { motion } from 'framer-motion';
 import SectionHeading from '@/components/ui/SectionHeading';
+import { spring } from '@/lib/motion';
 
 const tools = [
   { label: 'n8n', accent: 'blue' },
@@ -28,30 +29,27 @@ export default function Tools() {
           {tools.map((tool, i) => (
             <motion.div
               key={i}
-              initial={{ opacity: 0, scale: 0, rotate: -20 }}
-              whileInView={{ opacity: 1, scale: 1, rotate: 0 }}
+              initial={{ opacity: 0, scale: 0.5, filter: 'blur(4px)' }}
+              whileInView={{ opacity: 1, scale: 1, filter: 'blur(0px)' }}
               viewport={{ once: true }}
               transition={{
-                duration: 0.6,
-                delay: i * 0.08,
-                type: 'spring',
-                stiffness: 150,
-                damping: 12,
+                ...spring.gentle,
+                delay: i * 0.07,
               }}
             >
               <motion.div
-                animate={{ y: [0, -8, 2, -5, 0] }}
+                animate={{ y: [0, -6, 1, -4, 0] }}
                 transition={{
-                  duration: 3 + i * 0.4,
+                  duration: 4 + i * 0.5,
                   repeat: Infinity,
                   ease: 'easeInOut',
                 }}
                 whileHover={{
-                  scale: 1.12,
-                  y: -6,
+                  scale: 1.1,
+                  y: -4,
                   boxShadow: tool.accent === 'blue'
-                    ? '0 0 30px rgba(0,212,255,0.2), 0 0 60px rgba(0,212,255,0.08)'
-                    : '0 0 30px rgba(255,107,43,0.2), 0 0 60px rgba(255,107,43,0.08)',
+                    ? '0 0 25px rgba(0,212,255,0.15), 0 0 50px rgba(0,212,255,0.06)'
+                    : '0 0 25px rgba(255,107,43,0.15), 0 0 50px rgba(255,107,43,0.06)',
                 }}
                 className={`
                   px-5 py-3 rounded-xl text-sm md:text-base font-medium border backdrop-blur-sm

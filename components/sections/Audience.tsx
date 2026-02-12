@@ -1,9 +1,11 @@
 'use client';
 
+import { motion } from 'framer-motion';
 import SectionHeading from '@/components/ui/SectionHeading';
 import GlassCard from '@/components/ui/GlassCard';
 import AnimatedSection from '@/components/ui/AnimatedSection';
 import { School, TrendingUp, MessageSquareMore } from 'lucide-react';
+import { iconReveal } from '@/lib/motion';
 
 const cards = [
   {
@@ -40,12 +42,18 @@ export default function Audience() {
           subtitle="Я больше всего полезен там, где нужно связать сервисы в единую систему и сделать так, чтобы она работала стабильно: без ручных переносов, дублей, потерь заявок и «почему снова не отправилось»."
         />
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 perspective-container">
           {cards.map((card, i) => (
             <GlassCard key={i} delay={i * 0.1} className="p-6 md:p-8">
-              <div className="w-12 h-12 rounded-xl bg-neon-blue/10 border border-neon-blue/20 flex items-center justify-center mb-5">
+              <motion.div
+                variants={iconReveal}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true }}
+                className="w-12 h-12 rounded-xl bg-neon-blue/10 border border-neon-blue/20 flex items-center justify-center mb-5"
+              >
                 <card.icon size={22} className="text-neon-blue" />
-              </div>
+              </motion.div>
               <h3 className="text-lg font-semibold text-white mb-4">
                 {card.title}
               </h3>

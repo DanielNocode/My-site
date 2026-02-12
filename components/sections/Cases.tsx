@@ -5,6 +5,7 @@ import SectionHeading from '@/components/ui/SectionHeading';
 import GlassCard from '@/components/ui/GlassCard';
 import NeonButton from '@/components/ui/NeonButton';
 import { Send } from 'lucide-react';
+import { nodePulse, drawLine, ease, duration, viewport } from '@/lib/motion';
 
 interface DiagramNode {
   label: string;
@@ -105,43 +106,72 @@ const cases: CaseData[] = [
   },
 ];
 
+/* Animated diagram with SVG draw-on lines and pulsing nodes */
 function CaseDiagram({ nodes }: { nodes: DiagramNode[] }) {
+  const nodeHeight = 36;
+  const gap = 28;
+  const totalH = nodes.length * nodeHeight + (nodes.length - 1) * gap;
+
   return (
-    <div className="flex flex-col items-center gap-2 py-4">
-      {nodes.map((node, i) => (
-        <div key={i} className="flex flex-col items-center">
+    <motion.div
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, margin: '-40px' }}
+      className="relative flex flex-col items-center py-4"
+      style={{ minHeight: totalH }}
+    >
+      {/* SVG connecting lines — draw-on animation */}
+      <svg
+        className="absolute inset-0 w-full h-full pointer-events-none"
+        viewBox={`0 0 200 ${totalH}`}
+        fill="none"
+        preserveAspectRatio="xMidYMid meet"
+      >
+        {nodes.slice(0, -1).map((_, i) => {
+          const y1 = i * (nodeHeight + gap) + nodeHeight;
+          const y2 = y1 + gap;
+          return (
+            <motion.line
+              key={i}
+              x1="100"
+              y1={y1}
+              x2="100"
+              y2={y2}
+              stroke="rgba(255,255,255,0.12)"
+              strokeWidth="1"
+              variants={drawLine}
+              custom={i}
+              transition={{
+                pathLength: { duration: 0.6, delay: i * 0.12 + 0.2, ease: ease.cinematic },
+                opacity: { duration: 0.3, delay: i * 0.12 },
+              }}
+            />
+          );
+        })}
+      </svg>
+
+      {/* Nodes */}
+      <div className="relative flex flex-col items-center" style={{ gap: `${gap}px` }}>
+        {nodes.map((node, i) => (
           <motion.div
-            initial={{ opacity: 0, scale: 0.8 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.4, delay: i * 0.08 }}
+            key={i}
+            variants={nodePulse}
+            custom={i}
             className={`
               relative px-4 py-2.5 rounded-xl text-xs md:text-sm font-medium text-center
               min-w-[140px] max-w-[200px] border backdrop-blur-sm
-              ${
-                node.accent === 'orange'
-                  ? 'border-neon-orange/30 bg-neon-orange/[0.06] text-neon-orange shadow-[0_0_15px_rgba(255,107,43,0.06)]'
-                  : 'border-neon-blue/30 bg-neon-blue/[0.06] text-neon-blue shadow-[0_0_15px_rgba(0,212,255,0.06)]'
+              ${node.accent === 'orange'
+                ? 'border-neon-orange/30 bg-neon-orange/[0.06] text-neon-orange node-pulse-orange'
+                : 'border-neon-blue/30 bg-neon-blue/[0.06] text-neon-blue node-pulse'
               }
             `}
+            style={{ height: `${nodeHeight}px` }}
           >
             {node.label}
           </motion.div>
-          {i < nodes.length - 1 && (
-            <motion.div
-              initial={{ opacity: 0, scaleY: 0 }}
-              whileInView={{ opacity: 1, scaleY: 1 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.3, delay: i * 0.08 + 0.1 }}
-              className="flex flex-col items-center"
-            >
-              <div className="w-px h-4 bg-gradient-to-b from-white/20 to-white/5" />
-              <div className="w-0 h-0 border-l-[4px] border-l-transparent border-r-[4px] border-r-transparent border-t-[5px] border-t-white/20" />
-            </motion.div>
-          )}
-        </div>
-      ))}
-    </div>
+        ))}
+      </div>
+    </motion.div>
   );
 }
 
@@ -160,22 +190,18 @@ export default function Cases() {
           {cases.map((caseItem, i) => (
             <GlassCard
               key={i}
-              delay={i * 0.1}
+              delay={i * 0.08}
               hoverGlow={i % 2 === 0 ? 'blue' : 'orange'}
               className="p-6 md:p-8 overflow-hidden"
             >
               <div className="flex flex-col lg:flex-row gap-8">
-                {/* Diagram */}
                 <div className="lg:w-[260px] flex-shrink-0 flex items-center justify-center">
                   <CaseDiagram nodes={caseItem.diagram} />
                 </div>
-
-                {/* Content */}
                 <div className="flex-1 min-w-0">
                   <h3 className="text-lg md:text-xl font-semibold text-white mb-5">
                     {caseItem.title}
                   </h3>
-
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
                       <p className="text-xs font-semibold uppercase tracking-wider text-neon-blue/70 mb-1.5">
@@ -218,10 +244,10 @@ export default function Cases() {
 
         {/* CTA under cases */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5, delay: 0.3 }}
+          initial={{ opacity: 0, y: 30, scale: 0.97 }}
+          whileInView={{ opacity: 1, y: 0, scale: 1 }}
+          viewport={viewport.default}
+          transition={{ duration: duration.slow, delay: 0.2, ease: ease.out }}
           className="mt-12 text-center"
         >
           <p className="text-slate-400 mb-5">

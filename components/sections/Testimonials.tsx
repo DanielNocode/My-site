@@ -1,8 +1,10 @@
 'use client';
 
+import { motion } from 'framer-motion';
 import SectionHeading from '@/components/ui/SectionHeading';
 import GlassCard from '@/components/ui/GlassCard';
 import { Quote } from 'lucide-react';
+import { spring } from '@/lib/motion';
 
 const testimonials = [
   {
@@ -28,7 +30,6 @@ export default function Testimonials() {
     <section id="testimonials" className="relative py-14 md:py-20">
       <div className="absolute top-0 left-0 right-0 gradient-line" />
 
-      {/* Background accent */}
       <div className="absolute bottom-0 left-1/4 w-[500px] h-[300px] bg-neon-orange/[0.02] rounded-full blur-[120px] pointer-events-none" />
 
       <div className="section-wrapper relative z-10">
@@ -37,7 +38,7 @@ export default function Testimonials() {
           subtitle="Коротко и по делу — про результат, логику и стабильность работы."
         />
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto perspective-container">
           {testimonials.map((item, i) => (
             <GlassCard
               key={i}
@@ -45,12 +46,19 @@ export default function Testimonials() {
               hoverGlow={i % 2 === 0 ? 'blue' : 'orange'}
               className="p-6 md:p-8"
             >
-              <Quote
-                size={24}
-                className={`mb-4 ${
-                  i % 2 === 0 ? 'text-neon-blue/30' : 'text-neon-orange/30'
-                }`}
-              />
+              <motion.div
+                initial={{ opacity: 0, scale: 0, rotate: -15 }}
+                whileInView={{ opacity: 1, scale: 1, rotate: 0 }}
+                viewport={{ once: true }}
+                transition={{ ...spring.bouncy, delay: i * 0.1 + 0.15 }}
+              >
+                <Quote
+                  size={24}
+                  className={`mb-4 ${
+                    i % 2 === 0 ? 'text-neon-blue/30' : 'text-neon-orange/30'
+                  }`}
+                />
+              </motion.div>
               <p className="text-sm md:text-base text-slate-300 leading-relaxed mb-5 italic">
                 &laquo;{item.text}&raquo;
               </p>

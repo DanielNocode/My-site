@@ -33,7 +33,7 @@ export default function BackgroundEffects() {
   const [particles, setParticles] = useState<Particle[]>([]);
 
   useEffect(() => {
-    setParticles(generateParticles(30));
+    setParticles(generateParticles(25));
   }, []);
 
   return (
@@ -41,11 +41,18 @@ export default function BackgroundEffects() {
       {/* Tech grid */}
       <div className="absolute inset-0 cyber-grid" />
 
-      {/* Animated horizontal scan line */}
+      {/* Slow scan line — cinematic feel */}
       <motion.div
         animate={{ y: ['0vh', '100vh'] }}
-        transition={{ duration: 12, repeat: Infinity, ease: 'linear' }}
-        className="absolute left-0 right-0 h-px bg-gradient-to-r from-transparent via-neon-blue/10 to-transparent"
+        transition={{ duration: 14, repeat: Infinity, ease: 'linear' }}
+        className="absolute left-0 right-0 h-px bg-gradient-to-r from-transparent via-neon-blue/8 to-transparent"
+      />
+
+      {/* Second scan line — offset, orange tint */}
+      <motion.div
+        animate={{ y: ['100vh', '0vh'] }}
+        transition={{ duration: 18, repeat: Infinity, ease: 'linear', delay: 5 }}
+        className="absolute left-0 right-0 h-px bg-gradient-to-r from-transparent via-neon-orange/5 to-transparent"
       />
 
       {/* Floating particles */}
@@ -58,9 +65,9 @@ export default function BackgroundEffects() {
             opacity: 0,
           }}
           animate={{
-            y: [`${p.y}vh`, `${p.y - 15 - Math.random() * 10}vh`, `${p.y}vh`],
-            x: [`${p.x}vw`, `${p.x + (Math.random() * 6 - 3)}vw`, `${p.x}vw`],
-            opacity: [0, 0.6, 0],
+            y: [`${p.y}vh`, `${p.y - 12}vh`, `${p.y}vh`],
+            x: [`${p.x}vw`, `${p.x + (p.id % 2 === 0 ? 2 : -2)}vw`, `${p.x}vw`],
+            opacity: [0, 0.5, 0],
           }}
           transition={{
             duration: p.duration,
@@ -71,8 +78,8 @@ export default function BackgroundEffects() {
           style={{ width: p.size, height: p.size }}
           className={`absolute rounded-full ${
             p.color === 'blue'
-              ? 'bg-neon-blue/40 shadow-[0_0_6px_rgba(0,212,255,0.3)]'
-              : 'bg-neon-orange/40 shadow-[0_0_6px_rgba(255,107,43,0.3)]'
+              ? 'bg-neon-blue/40 shadow-[0_0_6px_rgba(0,212,255,0.25)]'
+              : 'bg-neon-orange/40 shadow-[0_0_6px_rgba(255,107,43,0.25)]'
           }`}
         />
       ))}
@@ -89,10 +96,8 @@ export default function BackgroundEffects() {
             <stop offset="100%" stopColor="rgba(255,107,43,0)" />
           </linearGradient>
         </defs>
-        {/* Top-left accent */}
         <line x1="0" y1="120" x2="300" y2="120" stroke="url(#lineGradBlue)" strokeWidth="0.5" />
         <line x1="120" y1="0" x2="120" y2="300" stroke="url(#lineGradBlue)" strokeWidth="0.5" />
-        {/* Bottom-right accent */}
         <line x1="100%" y1="85%" x2="70%" y2="85%" stroke="url(#lineGradOrange)" strokeWidth="0.5" />
       </svg>
     </div>

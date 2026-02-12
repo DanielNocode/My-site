@@ -47,10 +47,9 @@ export default function GlassCard({
     const rect = ref.current.getBoundingClientRect();
     const x = (e.clientX - rect.left) / rect.width;
     const y = (e.clientY - rect.top) / rect.height;
-    // Subtle 3D tilt: ±4 degrees
     setTilt({
-      x: (y - 0.5) * -8,
-      y: (x - 0.5) * 8,
+      x: (y - 0.5) * -6,
+      y: (x - 0.5) * 6,
     });
     setLightPos({ x: x * 100, y: y * 100 });
   }, []);
@@ -74,30 +73,33 @@ export default function GlassCard({
   };
 
   return (
+    /* Outer: perspective context for 3D entrance */
     <motion.div
-      ref={ref}
       variants={cardVariants}
       initial="hidden"
       whileInView="visible"
       viewport={{ once: true, margin: '-60px' }}
       transition={{ delay }}
-      onMouseMove={handleMouseMove}
-      onMouseLeave={handleMouseLeave}
-      animate={{
-        rotateX: tilt.x,
-        rotateY: tilt.y,
-      }}
-      style={{
-        transformStyle: 'preserve-3d',
-        perspective: '1000px',
-        background: `radial-gradient(circle at ${lightPos.x}% ${lightPos.y}%, ${glowColor}, transparent 60%), rgba(255,255,255,0.02)`,
-      }}
-      className={`
-        border border-white/[0.06] backdrop-blur-xl rounded-2xl
-        transition-[border-color,box-shadow] duration-400 ${borderGlow[hoverGlow]} ${className}
-      `}
+      style={{ perspective: '1000px' }}
     >
-      {children}
+      {/* Inner: hover tilt + light follow via CSS transform (no conflict with variants) */}
+      <div
+        ref={ref}
+        onMouseMove={handleMouseMove}
+        onMouseLeave={handleMouseLeave}
+        style={{
+          transform: `rotateX(${tilt.x}deg) rotateY(${tilt.y}deg)`,
+          transformStyle: 'preserve-3d',
+          transition: 'transform 0.2s ease-out',
+          background: `radial-gradient(circle at ${lightPos.x}% ${lightPos.y}%, ${glowColor}, transparent 60%), rgba(255,255,255,0.02)`,
+        }}
+        className={`
+          border border-white/[0.06] backdrop-blur-xl rounded-2xl
+          transition-[border-color,box-shadow] duration-400 ${borderGlow[hoverGlow]} ${className}
+        `}
+      >
+        {children}
+      </div>
     </motion.div>
   );
 }

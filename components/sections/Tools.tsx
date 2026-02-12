@@ -15,7 +15,7 @@ const tools = [
 
 export default function Tools() {
   return (
-    <section id="tools" className="relative py-24 md:py-32">
+    <section id="tools" className="relative py-14 md:py-20">
       <div className="absolute top-0 left-0 right-0 gradient-line" />
 
       <div className="section-wrapper">

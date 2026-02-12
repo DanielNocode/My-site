@@ -7,7 +7,7 @@ import { Send, Mail } from 'lucide-react';
 
 export default function Contacts() {
   return (
-    <section id="contacts" className="relative py-24 md:py-32">
+    <section id="contacts" className="relative py-14 md:py-20">
       <div className="absolute top-0 left-0 right-0 gradient-line" />
 
       {/* Background effects */}

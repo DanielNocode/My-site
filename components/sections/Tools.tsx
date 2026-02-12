@@ -28,22 +28,43 @@ export default function Tools() {
           {tools.map((tool, i) => (
             <motion.div
               key={i}
-              initial={{ opacity: 0, scale: 0.8 }}
-              whileInView={{ opacity: 1, scale: 1 }}
+              initial={{ opacity: 0, scale: 0, rotate: -20 }}
+              whileInView={{ opacity: 1, scale: 1, rotate: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.4, delay: i * 0.06 }}
-              whileHover={{ scale: 1.05, y: -2 }}
-              className={`
-                px-5 py-3 rounded-xl text-sm md:text-base font-medium border backdrop-blur-sm
-                transition-all duration-300 cursor-default
-                ${
-                  tool.accent === 'blue'
-                    ? 'border-neon-blue/20 bg-neon-blue/[0.04] text-neon-blue hover:border-neon-blue/40 hover:shadow-[0_0_20px_rgba(0,212,255,0.08)]'
-                    : 'border-neon-orange/20 bg-neon-orange/[0.04] text-neon-orange hover:border-neon-orange/40 hover:shadow-[0_0_20px_rgba(255,107,43,0.08)]'
-                }
-              `}
+              transition={{
+                duration: 0.6,
+                delay: i * 0.08,
+                type: 'spring',
+                stiffness: 150,
+                damping: 12,
+              }}
             >
-              {tool.label}
+              <motion.div
+                animate={{ y: [0, -8, 2, -5, 0] }}
+                transition={{
+                  duration: 3 + i * 0.4,
+                  repeat: Infinity,
+                  ease: 'easeInOut',
+                }}
+                whileHover={{
+                  scale: 1.12,
+                  y: -6,
+                  boxShadow: tool.accent === 'blue'
+                    ? '0 0 30px rgba(0,212,255,0.2), 0 0 60px rgba(0,212,255,0.08)'
+                    : '0 0 30px rgba(255,107,43,0.2), 0 0 60px rgba(255,107,43,0.08)',
+                }}
+                className={`
+                  px-5 py-3 rounded-xl text-sm md:text-base font-medium border backdrop-blur-sm
+                  cursor-default
+                  ${
+                    tool.accent === 'blue'
+                      ? 'border-neon-blue/20 bg-neon-blue/[0.04] text-neon-blue hover:border-neon-blue/40'
+                      : 'border-neon-orange/20 bg-neon-orange/[0.04] text-neon-orange hover:border-neon-orange/40'
+                  }
+                `}
+              >
+                {tool.label}
+              </motion.div>
             </motion.div>
           ))}
         </div>

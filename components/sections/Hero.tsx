@@ -1,7 +1,7 @@
 'use client';
 
 import { motion, useScroll, useTransform } from 'framer-motion';
-import { Send, ArrowDown, Terminal } from 'lucide-react';
+import { Send, ArrowDown } from 'lucide-react';
 import Image from 'next/image';
 import { useRef } from 'react';
 import { ease, duration } from '@/lib/motion';
@@ -14,7 +14,6 @@ const badges = [
   'Контроль ошибок, ретраи, логирование',
 ];
 
-/* Staged headline words — each word fades in sequentially */
 const headlineWords = ['AI-агенты,', 'чат-боты', 'и'];
 const accentWord = 'автоматизации';
 const trailingWords = ['для', 'онлайн-бизнеса'];
@@ -45,7 +44,7 @@ export default function Hero() {
   return (
     <section
       ref={sectionRef}
-      className="relative min-h-screen flex flex-col overflow-hidden pt-20"
+      className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20"
     >
       {/* ─── Parallax background blobs ─── */}
       <div className="absolute inset-0">
@@ -69,48 +68,32 @@ export default function Hero() {
         />
       </div>
 
-      {/* ═══ System Status Bar ═══ */}
+      {/* ─── Background system marker (top-left) ─── */}
       <motion.div
-        initial={{ opacity: 0, y: -10 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, delay: 0.15, ease: ease.out }}
-        className="relative z-10 section-wrapper"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 1, delay: 1.5 }}
+        className="absolute top-24 left-6 sm:left-8 lg:left-10 z-10 flex items-center gap-1.5"
       >
-        <div className="flex items-center justify-between py-3 px-4 border-b border-white/[0.06]">
-          <div className="flex items-center gap-2 text-xs text-slate-500 font-mono tracking-wider">
-            <span className="system-status-dot" />
-            <span>SYSTEM STATUS: <span className="text-neon-blue/70">ONLINE</span></span>
-          </div>
-          <a
-            href="https://t.me/techprod_ai"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-xs text-slate-500 hover:text-neon-blue/70 transition-colors duration-200 font-mono tracking-wider"
-          >
-            → OPEN CHANNEL
-          </a>
-        </div>
+        <span className="system-status-dot" />
+        <span className="text-[10px] text-slate-600/60 font-mono tracking-widest">ONLINE</span>
       </motion.div>
 
-      {/* ═══ Main content ═══ */}
-      <div className="relative z-10 section-wrapper flex-1 flex items-center">
-        <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-16 w-full">
-          {/* ─── Left: System output ─── */}
+      <div className="relative z-10 section-wrapper">
+        <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-16">
+          {/* ─── Left: Content ─── */}
           <div className="flex-1 text-center lg:text-left">
-            {/* Headline with engineering prefix */}
             <motion.h1
               initial="hidden"
               animate="visible"
               transition={{ staggerChildren: 0.07, delayChildren: 0.3 }}
               className="text-4xl sm:text-5xl md:text-6xl lg:text-[3.5rem] font-extrabold text-white leading-[1.1] mb-6"
             >
-              <motion.span variants={wordVariants} className="inline-block mr-[0.3em] text-neon-blue/30 font-mono font-light">&gt;</motion.span>
               {headlineWords.map((word, i) => (
                 <motion.span key={i} variants={wordVariants} className="inline-block mr-[0.3em]">
                   {word}
                 </motion.span>
               ))}
-              {/* Accent word with glitch */}
               <motion.span variants={wordVariants} data-hero-accent-wrap className="inline-block mr-[0.3em]">
                 <span className="relative inline-block glitch-wrapper">
                   <span data-hero-accent className="relative z-10 bg-gradient-to-r from-neon-blue to-neon-blue/70 bg-clip-text text-transparent">
@@ -120,8 +103,6 @@ export default function Hero() {
                   <span className="glitch-layer glitch-orange" aria-hidden="true">{accentWord}</span>
                 </span>
               </motion.span>
-              <br className="hidden lg:block" />
-              <motion.span variants={wordVariants} className="hidden lg:inline-block mr-[0.3em] text-neon-blue/30 font-mono font-light">&gt;</motion.span>
               {trailingWords.map((word, i) => (
                 <motion.span key={i} variants={wordVariants} className="inline-block mr-[0.3em]">
                   {word}
@@ -129,24 +110,19 @@ export default function Hero() {
               ))}
             </motion.h1>
 
-            {/* Description as structured log lines */}
-            <motion.div
+            <motion.p
               initial={{ opacity: 0, y: 20, filter: 'blur(4px)' }}
               animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
               transition={{ duration: duration.slow, delay: 0.7, ease: ease.out }}
-              className="mb-8 max-w-2xl mx-auto lg:mx-0 space-y-2"
+              className="text-lg md:text-xl text-slate-400 leading-relaxed mb-8 max-w-2xl mx-auto lg:mx-0"
             >
-              <p className="text-lg md:text-xl text-slate-400 leading-relaxed">
-                <span className="text-slate-600 font-mono text-sm mr-2">process</span>
-                заявки → квалификация → CRM → сообщения → задачи → отчёты
-              </p>
-              <p className="text-lg md:text-xl text-slate-400 leading-relaxed">
-                <span className="text-slate-600 font-mono text-sm mr-2">scope</span>
-                маркетинг × процессы × техчасть — от логики до внедрения
-              </p>
-            </motion.div>
+              Строю системы, которые снимают ручной хаос:
+              заявки → квалификация → CRM → сообщения → задачи → отчёты.
+              <br className="hidden md:block" />
+              Работаю на стыке маркетинга, процессов и техчасти — от логики до внедрения.
+            </motion.p>
 
-            {/* Capability chips */}
+            {/* Badges */}
             <motion.div
               initial="hidden"
               animate="visible"
@@ -173,7 +149,7 @@ export default function Hero() {
               ))}
             </motion.div>
 
-            {/* CTA — system actions */}
+            {/* CTAs */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -188,11 +164,10 @@ export default function Hero() {
                 href="https://t.me/techprod_ai"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="btn-neon-orange text-base px-8 py-4 gap-2.5"
+                className="btn-neon-orange text-base px-8 py-4"
               >
                 <Send size={18} />
-                <span>Обсудить задачу</span>
-                <span className="text-xs opacity-50 font-mono ml-1">RUN</span>
+                Обсудить задачу в Telegram
               </motion.a>
               <motion.a
                 data-hero-cta
@@ -200,11 +175,10 @@ export default function Hero() {
                 whileTap={{ scale: 0.97 }}
                 transition={{ type: 'spring', stiffness: 300, damping: 20 }}
                 href="#cases"
-                className="btn-neon-blue text-base px-8 py-4 gap-2.5"
+                className="btn-neon-blue text-base px-8 py-4"
               >
-                <Terminal size={18} />
-                <span>Смотреть кейсы</span>
-                <span className="text-xs opacity-50 font-mono ml-1">VIEW</span>
+                <ArrowDown size={18} />
+                Смотреть кейсы
               </motion.a>
             </motion.div>
 
@@ -218,7 +192,7 @@ export default function Hero() {
             </motion.p>
           </div>
 
-          {/* ─── Right: Process window (portrait) ─── */}
+          {/* ─── Right: Portrait ─── */}
           <motion.div
             initial={{ opacity: 0, scale: 0.88, filter: 'blur(8px)' }}
             animate={{ opacity: 1, scale: 1, filter: 'blur(0px)' }}
@@ -237,18 +211,8 @@ export default function Hero() {
                 className="absolute inset-0 rounded-2xl bg-gradient-to-br from-neon-blue/20 to-neon-orange/15 blur-2xl"
               />
 
-              {/* Process window frame */}
+              {/* Card */}
               <div data-hero-glass className="process-window relative w-full h-full rounded-2xl overflow-hidden border border-white/[0.08] bg-dark-800">
-                {/* Window title bar */}
-                <div className="absolute top-0 left-0 right-0 z-20 flex items-center justify-between px-3 py-1.5 bg-dark-950/80 backdrop-blur-sm border-b border-white/[0.06]">
-                  <div className="flex items-center gap-1.5">
-                    <span className="w-2 h-2 rounded-full bg-neon-blue/40" />
-                    <span className="text-[10px] text-slate-600 font-mono tracking-wider">operator.view</span>
-                  </div>
-                  <span className="text-[10px] text-slate-600 font-mono">pid:1024</span>
-                </div>
-
-                {/* Photo */}
                 <Image
                   src="/images/my_photo_hero.png"
                   alt="Данил — AI-агенты и автоматизации"
@@ -257,15 +221,9 @@ export default function Hero() {
                   priority
                 />
 
-                {/* Bottom overlay — process info */}
-                <div className="absolute bottom-0 left-0 right-0 z-20 px-3 py-2 bg-gradient-to-t from-dark-950/90 via-dark-950/60 to-transparent">
-                  <div className="flex items-center justify-between">
-                    <span className="text-[10px] text-slate-500 font-mono">operator: <span className="text-slate-400">danil</span></span>
-                    <span className="text-[10px] text-neon-blue/50 font-mono flex items-center gap-1">
-                      <span className="system-status-dot system-status-dot--sm" />
-                      analyzing
-                    </span>
-                  </div>
+                {/* Single subtle label */}
+                <div className="absolute bottom-0 left-0 right-0 z-20 px-3 py-2 bg-gradient-to-t from-dark-950/80 to-transparent">
+                  <span className="text-[10px] text-slate-500/70 font-mono tracking-wider">operator: danil</span>
                 </div>
               </div>
 

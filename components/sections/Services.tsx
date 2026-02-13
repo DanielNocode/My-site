@@ -68,7 +68,7 @@ const services = [
 
 export default function Services() {
   return (
-    <section id="services" className="relative py-14 md:py-20">
+    <section id="services" className="relative py-14 md:py-20 overflow-hidden">
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] bg-neon-blue/[0.03] rounded-full blur-[150px] pointer-events-none" />
 
       <div className="section-wrapper relative z-10 perspective-container">

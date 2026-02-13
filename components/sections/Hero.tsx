@@ -47,7 +47,7 @@ export default function Hero() {
       className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20"
     >
       {/* ─── Parallax background blobs ─── */}
-      <div className="absolute inset-0">
+      <div className="absolute inset-0 overflow-hidden">
         <motion.div
           style={{ y: bgY1 }}
           animate={{ scale: [1, 1.2, 1], opacity: [0.15, 0.25, 0.15] }}

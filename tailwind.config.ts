@@ -20,7 +20,8 @@ const config: Config = {
         },
       },
       fontFamily: {
-        sans: ['Space Grotesk', 'system-ui', '-apple-system', 'sans-serif'],
+        sans: ['Rajdhani', 'system-ui', '-apple-system', 'sans-serif'],
+        heading: ['Orbitron', 'system-ui', 'sans-serif'],
       },
       animation: {
         'glow-pulse': 'glow-pulse 3s ease-in-out infinite',

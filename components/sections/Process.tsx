@@ -130,7 +130,8 @@ export default function Process() {
                     whileInView="visible"
                     viewport={{ once: true }}
                     transition={{ delay: i * 0.12 + 0.1 }}
-                    className="hidden md:flex absolute left-1/2 -translate-x-1/2 z-10"
+                    className="hidden md:flex absolute left-1/2 z-10"
+                    style={{ marginLeft: '-20px' }}
                   >
                     <div className={`w-10 h-10 rounded-xl flex items-center justify-center border ${
                       i % 2 === 0

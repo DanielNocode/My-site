@@ -8,7 +8,7 @@ import { ease, duration, viewport } from '@/lib/motion';
 
 export default function Contacts() {
   return (
-    <section id="contacts" className="relative py-14 md:py-20">
+    <section id="contacts" className="relative py-14 md:py-20 overflow-hidden">
       <div className="absolute top-0 left-0 right-0 gradient-line" />
 
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[400px] bg-neon-blue/[0.04] rounded-full blur-[150px] pointer-events-none" />

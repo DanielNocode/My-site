@@ -45,7 +45,9 @@ export default function RootLayout({
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link href="https://fonts.googleapis.com/css2?family=Russo+One&family=Exo+2:wght@400;500;600;700&display=swap" rel="stylesheet" />
       </head>
-      <body className="noise-overlay">{children}</body>
+      <body className="noise-overlay">
+        <div className="overflow-x-hidden w-full">{children}</div>
+      </body>
     </html>
   );
 }

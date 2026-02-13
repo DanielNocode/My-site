@@ -214,7 +214,7 @@ export default function Hero() {
               {/* Card */}
               <div data-hero-glass className="process-window relative w-full h-full rounded-2xl overflow-hidden border border-white/[0.08] bg-dark-800">
                 <Image
-                  src="/images/my_photo_hero.png"
+                  src="/images/my_photo_hero.webp"
                   alt="Даниил — AI-агенты и автоматизации"
                   fill
                   className="object-cover object-top"

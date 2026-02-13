@@ -20,8 +20,8 @@ const config: Config = {
         },
       },
       fontFamily: {
-        sans: ['Rajdhani', 'system-ui', '-apple-system', 'sans-serif'],
-        heading: ['Orbitron', 'system-ui', 'sans-serif'],
+        sans: ['Exo 2', 'system-ui', '-apple-system', 'sans-serif'],
+        heading: ['Russo One', 'system-ui', 'sans-serif'],
       },
       animation: {
         'glow-pulse': 'glow-pulse 3s ease-in-out infinite',

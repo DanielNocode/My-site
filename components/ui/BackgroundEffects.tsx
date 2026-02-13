@@ -33,7 +33,8 @@ export default function BackgroundEffects() {
   const [particles, setParticles] = useState<Particle[]>([]);
 
   useEffect(() => {
-    setParticles(generateParticles(25));
+    const isMobile = window.innerWidth < 768;
+    setParticles(generateParticles(isMobile ? 8 : 25));
   }, []);
 
   return (
